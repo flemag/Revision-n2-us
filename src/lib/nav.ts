@@ -1,0 +1,221 @@
+export type NavItem = {
+  slug: string;
+  href: string;
+  num: string;
+  title: string;
+  short: string;
+  dek: string;
+  keywords: string[];
+};
+
+export const CHAPTERS: NavItem[] = [
+  {
+    slug: "ondes",
+    href: "/chapitre/ondes",
+    num: "01",
+    title: "Les ondes ultrasonores",
+    short: "Ondes",
+    dek: "OL, OT, Rayleigh, Lamb — comment le faisceau naît et se comporte dans la pièce.",
+    keywords: [
+      "longitudinale",
+      "transversale",
+      "cisaillement",
+      "compression",
+      "rayleigh",
+      "lamb",
+      "grains",
+      "mode",
+      "conversion",
+      "piezo",
+      "surface",
+    ],
+  },
+  {
+    slug: "grandeurs",
+    href: "/chapitre/grandeurs",
+    num: "02",
+    title: "Grandeurs & formules",
+    short: "Grandeurs",
+    dek: "Longueur d'onde, impédance, réflexion/transmission, décibels — les outils de calcul.",
+    keywords: [
+      "longueur d'onde",
+      "lambda",
+      "impedance",
+      "reflexion",
+      "transmission",
+      "decibel",
+      "db",
+      "piezo",
+      "epaisseur",
+    ],
+  },
+  {
+    slug: "snell",
+    href: "/chapitre/snell",
+    num: "03",
+    title: "Loi de Snell-Descartes",
+    short: "Snell",
+    dek: "Réfraction OL/OT, premier et second angles critiques, angle marqué du palpeur.",
+    keywords: [
+      "snell",
+      "descartes",
+      "refraction",
+      "incidence",
+      "critique",
+      "sabot",
+      "plexiglas",
+      "eau",
+    ],
+  },
+  {
+    slug: "champs",
+    href: "/chapitre/champs",
+    num: "04",
+    title: "Champs acoustiques",
+    short: "Champs",
+    dek: "Fresnel, Fraunhofer, zone focale, divergence, zone morte — géométrie du faisceau.",
+    keywords: [
+      "fresnel",
+      "fraunhofer",
+      "champ proche",
+      "n0",
+      "divergence",
+      "focale",
+      "zone morte",
+      "frequence",
+    ],
+  },
+  {
+    slug: "geometrie",
+    href: "/chapitre/geometrie",
+    num: "05",
+    title: "Géométrie du palpeur d'angle",
+    short: "Géométrie",
+    dek: "Parcours sonore, profondeur, distance projetée, ½ skip et skip complet.",
+    keywords: [
+      "skip",
+      "parcours",
+      "profondeur",
+      "distance projetee",
+      "demi-skip",
+      "v-path",
+      "pe",
+    ],
+  },
+  {
+    slug: "etalonnage",
+    href: "/chapitre/etalonnage",
+    num: "06",
+    title: "Étalonnage appareil US",
+    short: "Étalonnage",
+    dek: "Cales V1 et V2, linéarité, PE, correction d'angle, rapport S/B — ISO 22232-3.",
+    keywords: [
+      "v1",
+      "v2",
+      "cale",
+      "linearite",
+      "point emergence",
+      "angle",
+      "iso 22232",
+      "iso 2400",
+    ],
+  },
+  {
+    slug: "avg",
+    href: "/chapitre/avg",
+    num: "07",
+    title: "AVG, DAC, TCG & dimensionnement",
+    short: "AVG",
+    dek: "Taille équivalente, courbes DAC, TCG, méthodes −6 dB et −20 dB.",
+    keywords: [
+      "avg",
+      "dgs",
+      "dac",
+      "tcg",
+      "cad",
+      "moins 6 db",
+      "dimensionnement",
+      "tfp",
+    ],
+  },
+  {
+    slug: "forge",
+    href: "/chapitre/forge",
+    num: "08",
+    title: "Pièces forgées",
+    short: "Forge",
+    dek: "État de surface, retassures, tapures, flocons — NF EN 10228-3.",
+    keywords: [
+      "forge",
+      "retassure",
+      "tapure",
+      "flocon",
+      "hydrogene",
+      "10228",
+      "rugosite",
+      "brut",
+    ],
+  },
+  {
+    slug: "fit",
+    href: "/chapitre/fit",
+    num: "09",
+    title: "Procédure FIT complète",
+    short: "FIT",
+    dek: "Structure d'une Fiche d'Instruction de Travail, du matériel à la sanction.",
+    keywords: [
+      "fit",
+      "instruction",
+      "norme",
+      "10160",
+      "qualification",
+      "rapport",
+      "cartographie",
+    ],
+  },
+];
+
+export const TOOLS: NavItem[] = [
+  {
+    slug: "formulaire",
+    href: "/formulaire",
+    num: "Σ",
+    title: "Formulaire récapitulatif",
+    short: "Formulaire",
+    dek: "Toutes les formules, vitesses et conversions dB en une page.",
+    keywords: ["formule", "aide-memoire", "vitesses"],
+  },
+  {
+    slug: "atelier",
+    href: "/atelier",
+    num: "ƒ",
+    title: "Atelier de calcul",
+    short: "Atelier",
+    dek: "Calculateurs Snell, champ proche, skip, dB, impédance — avec schéma live.",
+    keywords: ["calculatrice", "snell", "skip", "db", "champ proche"],
+  },
+  {
+    slug: "quiz",
+    href: "/quiz",
+    num: "?",
+    title: "QCM d'entraînement",
+    short: "QCM",
+    dek: "Questions type examen, avec correction commentée.",
+    keywords: ["qcm", "examen", "piege", "entrainement"],
+  },
+  {
+    slug: "glossaire",
+    href: "/glossaire",
+    num: "Aa",
+    title: "Glossaire",
+    short: "Glossaire",
+    dek: "Tous les sigles du cahier, en un seul endroit.",
+    keywords: ["sigle", "abrev", "definition"],
+  },
+];
+
+export const ALL_NAV = [...CHAPTERS, ...TOOLS];
+
+export function findNav(slug: string): NavItem | undefined {
+  return ALL_NAV.find((n) => n.slug === slug);
+}

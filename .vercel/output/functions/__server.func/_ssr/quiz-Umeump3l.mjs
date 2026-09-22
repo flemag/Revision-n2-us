@@ -1,0 +1,526 @@
+import { i as __toESM } from "../_runtime.mjs";
+import { B as require_react, b as require_jsx_runtime } from "../_libs/@tanstack/react-router+[...].mjs";
+import { c as useAppStore, d as findNav, i as cn } from "./router-DbLJOLU9.mjs";
+import { _ as Tag, m as Result, r as ChapterHead } from "./content-CLft2yf5.mjs";
+import { t as Button } from "./button-CqxfcxPw.mjs";
+//#region node_modules/.nitro/vite/services/ssr/assets/quiz-Umeump3l.js
+var import_react = /* @__PURE__ */ __toESM(require_react());
+var import_jsx_runtime = require_jsx_runtime();
+var QUESTIONS = [
+	{
+		id: "q1",
+		chapter: "ondes",
+		q: "Pour une fréquence et un matériau donnés, quelle onde a la plus petite longueur d'onde ?",
+		choices: [
+			"L'onde longitudinale",
+			"L'onde de compression",
+			"L'onde de cisaillement",
+			"L'onde de surface"
+		],
+		answer: 3,
+		why: "Rayleigh / surface : vitesse la plus faible → λ = C/f minimale. Compression et longitudinale, c'est la même chose (OL)."
+	},
+	{
+		id: "q2",
+		chapter: "ondes",
+		q: "Le déplacement des particules d'une OT est :",
+		choices: [
+			"Parallèle à la propagation",
+			"Perpendiculaire à la propagation",
+			"Elliptique dans tout le volume",
+			"Nul : seule la pression varie"
+		],
+		answer: 1,
+		why: "OT = cisaillement : particules ⊥ à la direction de propagation. L'elliptique, c'est Rayleigh, et seulement près de la surface."
+	},
+	{
+		id: "q3",
+		chapter: "ondes",
+		q: "Dans un matériau à gros grains, quelles ondes passent le mieux ?",
+		choices: [
+			"Les OT",
+			"Les OL",
+			"Les Rayleigh",
+			"Les Lamb"
+		],
+		answer: 1,
+		why: "À f égale, λ_OL > λ_OT : moins de scattering sur les grains. L'EF s'écroule quand même si le grain est trop gros."
+	},
+	{
+		id: "q4",
+		chapter: "grandeurs",
+		q: "Si Z1 = Z2, à l'interface on observe :",
+		choices: [
+			"Une réflexion totale",
+			"Une transmission totale, aucun écho d'interface",
+			"Une inversion de phase systématique",
+			"Uniquement de l'OT réfractée"
+		],
+		answer: 1,
+		why: "Er = 0 quand Z1 = Z2. Ce n'est pas « Z grand ⇒ ça passe » : c'est le match d'impédance qui compte."
+	},
+	{
+		id: "q5",
+		chapter: "grandeurs",
+		q: "Le coefficient d'intensité de réflexion vaut :",
+		choices: [
+			"(Z1 − Z2) / (Z1 + Z2)",
+			"(Z1 − Z2)² / (Z1 + Z2)²",
+			"4 Z1 Z2 / (Z1 + Z2)²",
+			"2 Z2 / (Z1 + Z2)"
+		],
+		answer: 1,
+		why: "L'intensité est au carré. Sans carré, c'est l'amplitude (et encore, avec Z2 − Z1). 4Z1Z2/(Z1+Z2)² = Et."
+	},
+	{
+		id: "q6",
+		chapter: "grandeurs",
+		q: "Baisser le gain de 6 dB revient à :",
+		choices: [
+			"Diviser la puissance par 6",
+			"Diviser l'amplitude par 2",
+			"Diviser l'amplitude par 6",
+			"Diviser l'amplitude par 10"
+		],
+		answer: 1,
+		why: "ΔdB = 20 log(A2/A1). −6 dB ⇒ A2/A1 = 1/2. −20 dB ⇒ 1/10."
+	},
+	{
+		id: "q7",
+		chapter: "snell",
+		q: "sin θ1 / V1 = sin θ2 / V2 est :",
+		choices: [
+			"Le rapport d'impédance",
+			"La zone de Fresnel",
+			"La loi de Snell-Descartes",
+			"Le coefficient de transmission"
+		],
+		answer: 2,
+		why: "Snell-Descartes, utilisée pour les angles de réfraction OL et OT."
+	},
+	{
+		id: "q8",
+		chapter: "snell",
+		q: "Les OT n'existent pas :",
+		choices: [
+			"Dans l'acier",
+			"Dans le plexiglas",
+			"Dans les liquides et les gaz",
+			"Au-delà de 5 MHz"
+		],
+		answer: 2,
+		why: "Pas de résistance au cisaillement → pas d'OT dans l'eau ni l'air."
+	},
+	{
+		id: "q9",
+		chapter: "snell",
+		q: "Le premier angle critique correspond à :",
+		choices: [
+			"OT réfractée à 90°",
+			"OL réfractée à 90°",
+			"Incidence nulle",
+			"Égalité des impédances"
+		],
+		answer: 1,
+		why: "OL plus rapide → elle rase en premier. Au-delà, le sabot ne couple plus que de l'OT dans l'acier."
+	},
+	{
+		id: "q10",
+		chapter: "snell",
+		q: "Un palpeur marqué « 45° » signifie :",
+		choices: [
+			"Le coin plexi est taillé à 45°",
+			"L'OL se réfracte à 45° dans l'acier",
+			"L'OT se réfracte à 45° dans l'acier",
+			"L'incidence dans l'eau est 45°"
+		],
+		answer: 2,
+		why: "L'angle marqué = angle de l'OT dans l'acier. Le coin plexi d'un 45° est plutôt ~36°."
+	},
+	{
+		id: "q11",
+		chapter: "champs",
+		q: "Dans le champ proche, la pression acoustique :",
+		choices: [
+			"Décroît de façon monotone",
+			"Est nulle",
+			"Fluctue fortement (interférences)",
+			"Vaut toujours −6 dB"
+		],
+		answer: 2,
+		why: "Piège classique. La décroissance monotone, c'est Fraunhofer (champ lointain)."
+	},
+	{
+		id: "q12",
+		chapter: "champs",
+		q: "N₀ = D² / 4λ. Si D diminue, le champ proche :",
+		choices: [
+			"S'allonge",
+			"Raccourcit",
+			"Ne change pas",
+			"Devient infini"
+		],
+		answer: 1,
+		why: "N₀ proportionnel à D². Petit palpeur → Fresnel court, mais divergence plus grande."
+	},
+	{
+		id: "q13",
+		chapter: "champs",
+		q: "Le K du premier zéro de divergence (piston circulaire) vaut :",
+		choices: [
+			"0,51",
+			"0,87",
+			"1,22",
+			"2,00"
+		],
+		answer: 2,
+		why: "1,22 = premier zéro. 0,51 = −6 dB. 0,87 = −20 dB."
+	},
+	{
+		id: "q14",
+		chapter: "geometrie",
+		q: "Sur une tôle d'épaisseur t, la distance surface d'un ½ skip vaut :",
+		choices: [
+			"t / sin θ",
+			"t · tan θ",
+			"t · cos θ",
+			"2 t / tan θ"
+		],
+		answer: 1,
+		why: "½ skip = t tan θ. Skip complet = 2 t tan θ. Profondeur = P cos θ."
+	},
+	{
+		id: "q15",
+		chapter: "geometrie",
+		q: "Un écho d'angle à un parcours P a pour profondeur (avant le ½ skip) :",
+		choices: [
+			"P sin θ",
+			"P tan θ",
+			"P cos θ",
+			"P / cos θ"
+		],
+		answer: 2,
+		why: "d = P cos θ, s = P sin θ. Après le ½ skip, il faut « replier » avec l'épaisseur."
+	},
+	{
+		id: "q16",
+		chapter: "etalonnage",
+		q: "Sur une V1, le point d'émergence se mesure sur le rayon :",
+		choices: [
+			"25 mm",
+			"50 mm",
+			"100 mm",
+			"300 mm"
+		],
+		answer: 2,
+		why: "Quart de rond R = 100 mm. PE = 100 − L. (La V2 utilise 25 ou 50 mm.)"
+	},
+	{
+		id: "q17",
+		chapter: "etalonnage",
+		q: "Tolérance usuelle sur l'angle réel d'un palpeur 45° :",
+		choices: [
+			"± 0,5°",
+			"± 2°",
+			"± 5°",
+			"± 10°"
+		],
+		answer: 1,
+		why: "± 2°. Au-delà, le sabot est usé : on le réforme ou on le reformule dans la FIT."
+	},
+	{
+		id: "q18",
+		chapter: "etalonnage",
+		q: "Le rapport signal/bruit se calcule par :",
+		choices: [
+			"G1 + G2",
+			"G1 / G2",
+			"G1 − G2",
+			"20 log(G1/G2)"
+		],
+		answer: 2,
+		why: "G1 (défaut à 20 % HE) moins G2 (herbe à 20 % HE). Le résultat est largement négatif."
+	},
+	{
+		id: "q19",
+		chapter: "avg",
+		q: "La méthode AVG estime :",
+		choices: [
+			"La longueur vraie du défaut",
+			"Un diamètre équivalent de TFP",
+			"L'angle du palpeur",
+			"La rugosité de surface"
+		],
+		answer: 1,
+		why: "Taille équivalente d'un trou à fond plat, pas la géométrie réelle."
+	},
+	{
+		id: "q20",
+		chapter: "avg",
+		q: "Le TCG, c'est :",
+		choices: [
+			"Une correction de gain en fonction du temps, pour coller les échos de référence à la même hauteur",
+			"Un type d'onde de surface",
+			"Le nom allemand de l'OT",
+			"Un bloc étalon ISO 2400"
+		],
+		answer: 0,
+		why: "Time Corrected Gain = DAC électronique."
+	},
+	{
+		id: "q21",
+		chapter: "avg",
+		q: "La méthode −6 dB sur un défaut plus petit que le faisceau :",
+		choices: [
+			"Donne la taille vraie",
+			"Sous-estime toujours la taille",
+			"Surestime souvent (on mesure surtout le faisceau)",
+			"Ne s'applique qu'aux OT"
+		],
+		answer: 2,
+		why: "−6 dB est faite pour les réflecteurs plus grands que le faisceau. Sinon → AVG / DAC."
+	},
+	{
+		id: "q22",
+		chapter: "forge",
+		q: "Les flocons dans un forgeage :",
+		choices: [
+			"Sont exclusivement des défauts de surface",
+			"Viennent d'un excès d'hydrogène et peuvent disparaître au reforgeage",
+			"Sont des retassures de tête de lingot",
+			"N'apparaissent que pendant la trempe"
+		],
+		answer: 1,
+		why: "H2, délai de plusieurs jours, décohésion interne. Tapures = surface / trempe. Retassures = solidification."
+	},
+	{
+		id: "q23",
+		chapter: "forge",
+		q: "Le contrôle US des pièces forgées ferritiques relève de :",
+		choices: [
+			"NF EN ISO 10228-3",
+			"NF EN 10228-3",
+			"NF EN 10160",
+			"ISO 9712"
+		],
+		answer: 1,
+		why: "EN 10228-3, pas une ISO. 10160 = plats. 9712 = personnel."
+	},
+	{
+		id: "q24",
+		chapter: "forge",
+		q: "Sur un brut de forge, on privilégie :",
+		choices: [
+			"Un palpeur d'angle 70° sec",
+			"Une membrane souple et de l'huile",
+			"Un palpeur immersé sans couplant",
+			"Une fréquence 15 MHz"
+		],
+		answer: 1,
+		why: "La membrane épouse la peau d'orange. Fréquence haute = suicide sur brut."
+	},
+	{
+		id: "q25",
+		chapter: "fit",
+		q: "Dans une FIT destinée à un niveau 1, les critères d'acceptation :",
+		choices: [
+			"Peuvent être laissés à l'appréciation de l'opérateur",
+			"Doivent être chiffrés (ou renvoyés explicitement au sujet / code)",
+			"Sont facultatifs si on joint une photo",
+			"Relèvent uniquement du niveau 3"
+		],
+		answer: 1,
+		why: "Le N2 décide et écrit. Le N1 exécute. Rien d'implicite."
+	},
+	{
+		id: "q26",
+		chapter: "fit",
+		q: "Recouvrement et vitesse de sondage typiques d'un 100 % plaques :",
+		choices: [
+			"0 % et 500 mm/s",
+			"10 % et 150 mm/s",
+			"50 % et 10 mm/s",
+			"100 % et 1 m/s"
+		],
+		answer: 1,
+		why: "10 % de recouvrement, 150 mm/s : valeurs de la FIT-type EN 10160 du cahier."
+	},
+	{
+		id: "q27",
+		chapter: "grandeurs",
+		q: "Interface acier / air :",
+		choices: [
+			"Transmission quasi totale",
+			"Réflexion quasi totale",
+			"Uniquement de l'OT transmise",
+			"Aucun écho possible"
+		],
+		answer: 1,
+		why: "Z_air ≈ 0. C'est pour ça qu'un défaut débouchant « mange » l'écho de fond."
+	},
+	{
+		id: "q28",
+		chapter: "ondes",
+		q: "Les ondes de Lamb sont surtout utilisées pour :",
+		choices: [
+			"Les pièces massives de forge",
+			"Les tôles minces (ordre ≤ 3 mm)",
+			"Les contrôles en immersion profonde",
+			"Remplacer les OT au-delà du 2e critique"
+		],
+		answer: 1,
+		why: "Modes guidés de plaque mince. Sans courbe, on prend l'angle d'amplitude max."
+	}
+];
+function QuizPage() {
+	const item = findNav("quiz");
+	const setScore = useAppStore((s) => s.setQuizScore);
+	const best = useAppStore((s) => s.quizBest);
+	const [i, setI] = (0, import_react.useState)(0);
+	const [picked, setPicked] = (0, import_react.useState)(null);
+	const [score, setLocal] = (0, import_react.useState)(0);
+	const [done, setDone] = (0, import_react.useState)(false);
+	const q = QUESTIONS[(0, import_react.useMemo)(() => QUESTIONS.map((_, idx) => idx), [])[i]];
+	const total = QUESTIONS.length;
+	function choose(n) {
+		if (picked != null) return;
+		setPicked(n);
+		if (n === q.answer) setLocal((s) => s + 1);
+	}
+	function next() {
+		q.answer;
+		if (i + 1 >= total) {
+			const finalScore = picked === q.answer ? score : score;
+			setScore(finalScore, total);
+			setDone(true);
+			return;
+		}
+		setI(i + 1);
+		setPicked(null);
+	}
+	function finishEarly() {
+		setScore(score, total);
+		setDone(true);
+	}
+	function reset() {
+		setI(0);
+		setPicked(null);
+		setLocal(0);
+		setDone(false);
+	}
+	if (done) {
+		const pct = Math.round(score / total * 100);
+		return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("article", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(ChapterHead, { item }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+			className: "rounded-[var(--radius-lg)] bg-paper-card p-8 text-center shadow-[var(--shadow-border)]",
+			children: [
+				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+					className: "font-mono text-xs tracking-widest text-ink-muted uppercase",
+					children: "Score"
+				}),
+				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", {
+					className: "my-2 font-sans text-5xl font-semibold tabular-nums text-ol",
+					children: [pct, " %"]
+				}),
+				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", {
+					className: "text-ink-2",
+					children: [
+						score,
+						" / ",
+						total,
+						" · meilleur sur cet appareil : ",
+						Math.max(best, pct),
+						" %"
+					]
+				}),
+				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+					className: "mt-3 text-sm text-ink-muted",
+					children: pct >= 80 ? "Solide. Relis les chapitres encore rouges, puis refais le QCM à froid." : pct >= 50 ? "Les bases y sont. Concentre-toi sur les fiches « piège » (champ proche, dB, normes)." : "Reprends les chapitres 01 à 04 avant de recoller les procédures."
+				}),
+				/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button, {
+					className: "mt-6",
+					onClick: reset,
+					children: "Recommencer"
+				})
+			]
+		})] });
+	}
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("article", { children: [
+		/* @__PURE__ */ (0, import_jsx_runtime.jsx)(ChapterHead, { item }),
+		/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+			className: "mb-4 flex items-center justify-between font-mono text-xs text-ink-muted",
+			children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { children: [
+				"Question ",
+				i + 1,
+				" / ",
+				total
+			] }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", {
+				className: "tabular-nums",
+				children: [
+					"Score ",
+					score,
+					" · record ",
+					best,
+					" %"
+				]
+			})]
+		}),
+		/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+			className: "mb-4 h-1.5 overflow-hidden rounded-full bg-line",
+			children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+				className: "h-full bg-ol",
+				style: { width: `${(i + (picked != null ? 1 : 0)) / total * 100}%` }
+			})
+		}),
+		/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+			className: "rounded-[var(--radius-lg)] bg-paper-card p-5 shadow-[var(--shadow-border)] md:p-7",
+			children: [
+				/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Tag, { children: q.chapter }),
+				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", {
+					className: "mt-3 mb-5 font-sans text-xl leading-snug",
+					children: q.q
+				}),
+				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+					className: "grid gap-2",
+					children: q.choices.map((c, n) => {
+						const show = picked != null;
+						const good = n === q.answer;
+						const bad = show && n === picked && !good;
+						return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", {
+							type: "button",
+							onClick: () => choose(n),
+							className: cn("rounded-[var(--radius-md)] border px-4 py-3 text-left font-serif text-[0.95rem]", !show && "border-line-strong hover:border-ol", show && good && "border-good bg-good-soft text-good", bad && "border-crit bg-crit-soft text-crit", show && !good && !bad && "border-line text-ink-muted"),
+							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", {
+								className: "mr-2 font-mono text-xs",
+								children: [String.fromCharCode(65 + n), "."]
+							}), c]
+						}, c);
+					})
+				}),
+				picked != null ? /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+					className: "mt-5 rounded-[var(--radius-md)] border-l-[3px] border-ol bg-ol-soft px-4 py-3 text-sm text-ink-2",
+					children: [picked === q.answer ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Result, { children: "Correct" }) : /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+						className: "font-sans font-semibold text-crit",
+						children: "Incorrect. "
+					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+						className: "mt-2 mb-0",
+						children: q.why
+					})]
+				}) : null,
+				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+					className: "mt-6 flex flex-wrap gap-2",
+					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button, {
+						onClick: next,
+						disabled: picked == null,
+						children: i + 1 >= total ? "Voir le score" : "Question suivante"
+					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button, {
+						variant: "ghost",
+						onClick: finishEarly,
+						children: "Terminer"
+					})]
+				})
+			]
+		})
+	] });
+}
+//#endregion
+export { QuizPage as component };

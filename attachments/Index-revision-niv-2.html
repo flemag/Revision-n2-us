@@ -1,0 +1,1742 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cahier US · Révisions COFREND Ultrasons Niveau 2</title>
+<meta name="description" content="Fiches de révision pour le passage COFREND Ultrasons Niveau 2 — ondes, Snell-Descartes, champs acoustiques, étalonnage, méthode AVG, pièces forgées et procédure FIT.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@500;600;700&family=IBM+Plex+Serif:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+
+/* ============================================================
+   0. DESIGN TOKENS — "Cahier" (light) / "Oscillo" (dark)
+   ============================================================ */
+:root{
+  --paper:#F5F7F4;
+  --paper-card:#FDFEFC;
+  --paper-raised:#FFFFFF;
+  --ink:#172227;
+  --ink-2:#2B3A3E;
+  --ink-muted:#5A6E71;
+  --line:#DFE4DE;
+  --line-strong:#C7D0C8;
+  --grid-line:rgba(63,110,120,0.09);
+  --marge:#C24F45;
+  --ol:#0E7C74;        /* onde longitudinale / accent primaire */
+  --ol-soft:#E3F2EF;
+  --ot:#AD7519;        /* onde transversale / accent secondaire */
+  --ot-soft:#FBF0DA;
+  --crit:#B84C42;       /* alerte, points importants */
+  --crit-soft:#F8E9E7;
+  --good:#2E7D4F;
+  --good-soft:#E4F3E9;
+  --shadow: 0 1px 2px rgba(23,34,39,.04), 0 6px 18px -8px rgba(23,34,39,.10);
+  --shadow-lg: 0 12px 32px -12px rgba(23,34,39,.20);
+
+  --font-display:'IBM Plex Sans', system-ui, sans-serif;
+  --font-body:'IBM Plex Serif', Georgia, serif;
+  --font-mono:'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+
+  --space-1:.25rem; --space-2:.5rem; --space-3:.75rem; --space-4:1rem;
+  --space-5:1.5rem; --space-6:2rem; --space-7:3rem; --space-8:4.5rem;
+
+  --radius-sm:8px; --radius-md:14px; --radius-lg:22px;
+  --sidebar-w:288px;
+  --topbar-h:56px;
+  --transition-theme: background-color .35s ease, color .35s ease, border-color .35s ease;
+}
+
+[data-theme="dark"]{
+  --paper:#0C1415;
+  --paper-card:#121B1D;
+  --paper-raised:#162124;
+  --ink:#DEEAE7;
+  --ink-2:#C4D6D2;
+  --ink-muted:#82A19D;
+  --line:#22302F;
+  --line-strong:#2C3E3C;
+  --grid-line:rgba(63,209,199,0.07);
+  --marge:#E07A6E;
+  --ol:#3FD1C7;
+  --ol-soft:rgba(63,209,199,0.12);
+  --ot:#F0B429;
+  --ot-soft:rgba(240,180,41,0.12);
+  --crit:#E8746B;
+  --crit-soft:rgba(232,116,107,0.12);
+  --good:#59D189;
+  --good-soft:rgba(89,209,137,0.12);
+  --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px -10px rgba(0,0,0,.55);
+  --shadow-lg: 0 20px 45px -15px rgba(0,0,0,.6);
+}
+
+/* ============================================================
+   1. RESET & BASE
+   ============================================================ */
+*,*::before,*::after{box-sizing:border-box;}
+html{-webkit-text-size-adjust:100%;}
+/* Anchor jumps stay instant (native) — this page is used for frequent long-distance
+   jumps via the sidebar, and animating every one of them adds latency without benefit.
+   Only the "back to top" button gets an explicit, bounded smooth scroll (see JS). */
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--font-body);
+  font-size:17px;
+  line-height:1.65;
+  transition:var(--transition-theme);
+  background-image:
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size:26px 26px;
+}
+h1,h2,h3,h4,.font-display{font-family:var(--font-display); color:var(--ink); font-weight:600; letter-spacing:-.01em;}
+code, .mono, .frac, .var-legend, table, .tag, .step-num, .placeholder, .diagram-caption, nav{font-family:var(--font-mono);}
+p{margin:0 0 var(--space-4);}
+a{color:var(--ol);}
+ul,ol{padding-left:1.3em;}
+img,svg{max-width:100%;}
+::selection{background:var(--ot-soft); color:var(--ink);}
+
+/* focus visibility */
+a:focus-visible, button:focus-visible, input:focus-visible, [tabindex]:focus-visible{
+  outline:2.5px solid var(--ot);
+  outline-offset:3px;
+  border-radius:4px;
+}
+
+.skip-link{
+  position:absolute; left:-999px; top:0; z-index:999;
+  background:var(--ink); color:var(--paper); padding:.6em 1em; border-radius:0 0 8px 0;
+}
+.skip-link:focus{left:0;}
+
+@media (prefers-reduced-motion: reduce){
+  *{animation-duration:.001ms !important; animation-iteration-count:1 !important; transition-duration:.001ms !important; scroll-behavior:auto !important;}
+}
+
+/* ============================================================
+   2. LAYOUT SHELL
+   ============================================================ */
+.app{display:flex; min-height:100vh;}
+
+/* ---- Sidebar (desktop) ---- */
+.sidebar{
+  width:var(--sidebar-w); flex:none;
+  position:fixed; top:0; left:0; bottom:0;
+  border-right:1px solid var(--line);
+  background:var(--paper-card);
+  display:flex; flex-direction:column;
+  z-index:40;
+  transition:transform .3s ease, var(--transition-theme);
+}
+.sidebar-brand{
+  padding:var(--space-5) var(--space-5) var(--space-3);
+  border-bottom:1px solid var(--line);
+}
+.sidebar-brand .mark{
+  display:flex; align-items:center; gap:.55em;
+  font-family:var(--font-display); font-weight:700; font-size:1.05rem; color:var(--ink);
+}
+.sidebar-brand .mark .dot{width:10px;height:10px;border-radius:50%;background:var(--ol); box-shadow:0 0 0 3px var(--ol-soft);}
+.sidebar-brand .sub{margin-top:.35em; font-family:var(--font-mono); font-size:.72rem; letter-spacing:.06em; color:var(--ink-muted); text-transform:uppercase;}
+
+.search-wrap{padding:var(--space-4) var(--space-5); border-bottom:1px solid var(--line);}
+.search-wrap input{
+  width:100%; padding:.6em .8em; border-radius:var(--radius-sm);
+  border:1px solid var(--line-strong); background:var(--paper);
+  color:var(--ink); font-family:var(--font-mono); font-size:.85rem;
+}
+.search-wrap input::placeholder{color:var(--ink-muted);}
+.search-hint{margin-top:.4em; font-size:.7rem; color:var(--ink-muted); font-family:var(--font-mono);}
+
+.nav-scroll{flex:1; overflow-y:auto; padding:var(--space-3) var(--space-3) var(--space-4);}
+.nav-list{list-style:none; margin:0; padding:0;}
+.nav-list li{margin:1px 0;}
+.nav-list a{
+  display:flex; align-items:center; gap:.6em;
+  padding:.55em .75em; border-radius:var(--radius-sm);
+  text-decoration:none; color:var(--ink-2); font-size:.86rem;
+  font-family:var(--font-mono);
+  border-left:2px solid transparent;
+}
+.nav-list a .n{color:var(--ink-muted); font-size:.78rem; min-width:1.4em;}
+.nav-list a:hover{background:var(--ol-soft); color:var(--ink);}
+.nav-list a.active{background:var(--ol-soft); color:var(--ol); border-left-color:var(--ol); font-weight:600;}
+.nav-list a .check{margin-left:auto; opacity:0; color:var(--good); font-size:.85rem;}
+.nav-list a.reviewed .check{opacity:1;}
+.nav-divider{height:1px; background:var(--line); margin:var(--space-3) var(--space-2);}
+
+.sidebar-footer{border-top:1px solid var(--line); padding:var(--space-4) var(--space-5);}
+.progress-row{display:flex; align-items:center; justify-content:space-between; font-family:var(--font-mono); font-size:.72rem; color:var(--ink-muted); margin-bottom:.4em;}
+.progress-track{height:6px; border-radius:4px; background:var(--line); overflow:hidden;}
+.progress-fill{height:100%; width:0%; background:linear-gradient(90deg, var(--ol), var(--ot)); transition:width .4s ease;}
+
+.theme-toggle{
+  margin-top:var(--space-4); width:100%; display:flex; align-items:center; justify-content:space-between; gap:.6em;
+  padding:.6em .8em; border-radius:var(--radius-sm); border:1px solid var(--line-strong);
+  background:var(--paper); color:var(--ink); cursor:pointer; font-family:var(--font-mono); font-size:.78rem;
+}
+.theme-toggle:hover{border-color:var(--ol);}
+.theme-toggle svg{width:16px;height:16px;}
+.theme-toggle .lbl-cahier{display:inline;}
+.theme-toggle .lbl-oscillo{display:none;}
+[data-theme="dark"] .theme-toggle .lbl-cahier{display:none;}
+[data-theme="dark"] .theme-toggle .lbl-oscillo{display:inline;}
+
+/* ---- Mobile topbar ---- */
+.topbar{
+  display:none; position:sticky; top:0; z-index:50; height:var(--topbar-h);
+  align-items:center; gap:.75em; padding:0 var(--space-4);
+  background:var(--paper-card); border-bottom:1px solid var(--line);
+}
+.topbar button{background:none;border:none;color:var(--ink);}
+.icon-btn{
+  display:inline-flex; align-items:center; justify-content:center;
+  width:38px; height:38px; border-radius:var(--radius-sm); cursor:pointer;
+  border:1px solid var(--line-strong); background:var(--paper);
+}
+.icon-btn svg{width:18px;height:18px;}
+.topbar .t-title{font-family:var(--font-display); font-weight:700; font-size:.95rem;}
+.nav-scrim{display:none; position:fixed; inset:0; background:rgba(10,14,15,.45); z-index:39;}
+
+/* ---- Main content ---- */
+main{margin-left:var(--sidebar-w); flex:1; min-width:0; position:relative;}
+.content-wrap{
+  max-width:900px; margin:0 auto; padding:var(--space-7) var(--space-6) var(--space-8);
+  position:relative;
+}
+/* red "marge" rule echoing squared-paper notebooks */
+.content-wrap::before{
+  content:""; position:absolute; top:0; bottom:0; left:52px; width:1.5px;
+  background:var(--marge); opacity:.55;
+}
+@media (max-width:900px){ .content-wrap::before{left:20px;} }
+
+section[id]{scroll-margin-top:24px;}
+@media (max-width:768px){ section[id]{scroll-margin-top:calc(var(--topbar-h) + 16px);} }
+
+/* ============================================================
+   3. HERO
+   ============================================================ */
+.hero{
+  padding-top:var(--space-4);
+  display:grid; grid-template-columns:1.1fr .9fr; gap:var(--space-7); align-items:center;
+  margin-bottom:var(--space-8);
+}
+.hero-eyebrow{
+  display:inline-flex; align-items:center; gap:.5em; font-family:var(--font-mono); font-size:.78rem;
+  color:var(--ol); text-transform:uppercase; letter-spacing:.08em; margin-bottom:var(--space-4);
+}
+.hero-eyebrow::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--ol); box-shadow:0 0 0 4px var(--ol-soft); display:inline-block;}
+.hero h1{font-size:clamp(1.9rem, 4vw, 2.7rem); line-height:1.12; margin:0 0 var(--space-4);}
+.hero h1 em{font-style:normal; color:var(--ol); position:relative;}
+.hero p.lead{font-family:var(--font-body); font-size:1.1rem; color:var(--ink-2); max-width:46ch;}
+.hero-actions{display:flex; gap:.8em; margin-top:var(--space-5); flex-wrap:wrap;}
+.btn{
+  font-family:var(--font-display); font-weight:600; font-size:.88rem; text-decoration:none;
+  padding:.75em 1.3em; border-radius:999px; display:inline-flex; align-items:center; gap:.5em;
+  border:1px solid transparent; cursor:pointer;
+}
+.btn-primary{background:var(--ink); color:var(--paper);}
+[data-theme="dark"] .btn-primary{background:var(--ol); color:#04211E;}
+.btn-primary:hover{opacity:.88;}
+.btn-ghost{background:transparent; border-color:var(--line-strong); color:var(--ink);}
+.btn-ghost:hover{border-color:var(--ol); color:var(--ol);}
+
+.hero-scope{background:var(--paper-card); border:1px solid var(--line); border-radius:var(--radius-lg); box-shadow:var(--shadow); padding:var(--space-4);}
+.scope-head{display:flex; justify-content:space-between; align-items:center; font-family:var(--font-mono); font-size:.68rem; color:var(--ink-muted); margin-bottom:.5em; text-transform:uppercase; letter-spacing:.06em;}
+.scope-dots{display:flex; gap:5px;}
+.scope-dots span{width:7px;height:7px;border-radius:50%;background:var(--line-strong);}
+.ascan-path{stroke-dasharray:1400; stroke-dashoffset:1400; animation:draw 1.7s ease forwards .2s;}
+@keyframes draw{to{stroke-dashoffset:0;}}
+@media (prefers-reduced-motion: reduce){ .ascan-path{animation:none; stroke-dashoffset:0;} }
+.scope-legend{display:flex; gap:1.1em; flex-wrap:wrap; margin-top:.6em; font-family:var(--font-mono); font-size:.72rem; color:var(--ink-muted);}
+.scope-legend span{display:inline-flex; align-items:center; gap:.4em;}
+.scope-legend i{width:10px;height:10px;border-radius:2px; display:inline-block;}
+
+@media (max-width:900px){
+  .hero{grid-template-columns:1fr; gap:var(--space-5);}
+}
+
+/* ============================================================
+   4. SECTION HEADERS & GENERIC TYPOGRAPHY
+   ============================================================ */
+.chapter{padding-top:var(--space-6); padding-bottom:var(--space-4); border-top:1px solid var(--line); margin-top:var(--space-7);}
+.chapter:first-of-type{border-top:none; margin-top:0;}
+.chapter-head{display:flex; align-items:flex-start; justify-content:space-between; gap:var(--space-4); flex-wrap:wrap; margin-bottom:var(--space-5);}
+.chapter-eyebrow{font-family:var(--font-mono); color:var(--ol); font-size:.78rem; letter-spacing:.08em; text-transform:uppercase; display:block; margin-bottom:.4em;}
+.chapter h2{font-size:clamp(1.5rem,3vw,2rem); margin:0 0 .3em;}
+.chapter .dek{color:var(--ink-muted); font-family:var(--font-body); font-size:1.02rem; max-width:64ch; margin:0;}
+
+.reviewed-toggle{
+  flex:none; display:inline-flex; align-items:center; gap:.5em; cursor:pointer; user-select:none;
+  font-family:var(--font-mono); font-size:.74rem; color:var(--ink-muted);
+  border:1px solid var(--line-strong); padding:.5em .9em; border-radius:999px; background:var(--paper-card);
+  white-space:nowrap;
+}
+.reviewed-toggle .box{width:14px;height:14px;border-radius:4px;border:1.5px solid var(--line-strong); display:inline-flex; align-items:center; justify-content:center;}
+.reviewed-toggle .box svg{width:10px;height:10px;opacity:0;}
+.reviewed-toggle[data-on="true"]{border-color:var(--good); color:var(--good); background:var(--good-soft);}
+.reviewed-toggle[data-on="true"] .box{background:var(--good); border-color:var(--good);}
+.reviewed-toggle[data-on="true"] .box svg{opacity:1;}
+
+h3{font-size:1.2rem; margin:var(--space-6) 0 var(--space-3);}
+h3 .num{color:var(--ink-muted); font-family:var(--font-mono); font-weight:500; margin-right:.4em;}
+h4{font-size:1rem; margin:var(--space-4) 0 var(--space-2); font-family:var(--font-display); color:var(--ink);}
+
+.subhead-ol h3, .subhead-ol h4{color:var(--ol);}
+.subhead-ot h3, .subhead-ot h4{color:var(--ot);}
+
+/* ============================================================
+   5. CARDS, CALLOUTS, EXAMPLES
+   ============================================================ */
+.card{
+  background:var(--paper-card); border:1px solid var(--line); border-radius:var(--radius-md);
+  padding:var(--space-5); margin:var(--space-4) 0; box-shadow:var(--shadow);
+}
+.grid-2{display:grid; grid-template-columns:1fr 1fr; gap:var(--space-4);}
+.grid-3{display:grid; grid-template-columns:repeat(3,1fr); gap:var(--space-4);}
+@media (max-width:700px){ .grid-2, .grid-3{grid-template-columns:1fr;} }
+
+.callout{
+  border-left:3px solid var(--line-strong); background:var(--paper-card); border-radius:0 var(--radius-md) var(--radius-md) 0;
+  padding:var(--space-4) var(--space-5); margin:var(--space-4) 0;
+}
+.callout-title{display:flex; align-items:center; gap:.5em; font-family:var(--font-display); font-weight:600; font-size:.82rem; text-transform:uppercase; letter-spacing:.05em; margin-bottom:.5em;}
+.callout.important{border-left-color:var(--crit); background:var(--crit-soft);}
+.callout.important .callout-title{color:var(--crit);}
+.callout.savoir{border-left-color:var(--ol); background:var(--ol-soft);}
+.callout.savoir .callout-title{color:var(--ol);}
+.callout.astuce{border-left-color:var(--ot); background:var(--ot-soft);}
+.callout.astuce .callout-title{color:var(--ot);}
+.callout p:last-child{margin-bottom:0;}
+
+.example-card{
+  border:1px dashed var(--line-strong); border-radius:var(--radius-md); padding:var(--space-5); margin:var(--space-5) 0;
+  background:repeating-linear-gradient(var(--grid-line) 0 1px, transparent 1px 26px), var(--paper-card);
+}
+.example-tag{
+  display:inline-block; font-family:var(--font-mono); font-size:.7rem; text-transform:uppercase; letter-spacing:.08em;
+  color:var(--crit); border:1px solid var(--crit); padding:.2em .6em; border-radius:999px; margin-bottom:.8em;
+}
+.example-card .data-line{margin:.15em 0; font-family:var(--font-mono); font-size:.9rem;}
+.example-card .steps{margin:.8em 0 0;}
+.example-card .steps > div{margin:.5em 0; font-size:.95rem;}
+.result{
+  display:inline-block; margin-top:.6em; font-family:var(--font-mono); font-weight:600; font-size:1rem;
+  background:var(--good-soft); color:var(--good); padding:.35em .8em; border-radius:var(--radius-sm);
+}
+
+/* ============================================================
+   6. FORMULA CARDS + FRACTIONS
+   ============================================================ */
+.formula-card{
+  border:1px solid var(--line-strong); border-left:4px solid var(--ol); border-radius:var(--radius-md);
+  background:var(--paper-card); padding:var(--space-5); margin:var(--space-4) 0;
+}
+.formula-card h4{margin-top:0;}
+.formula-display{
+  font-family:var(--font-mono); font-size:1.15rem; text-align:center; color:var(--ink);
+  background:var(--paper); border:1px solid var(--line); border-radius:var(--radius-sm);
+  padding:var(--space-4); margin:.6em 0 .8em; overflow-x:auto;
+}
+.formula-display .eq{display:inline-flex; align-items:center; gap:.5em; flex-wrap:wrap; justify-content:center;}
+.frac{display:inline-flex; flex-direction:column; vertical-align:middle; text-align:center; margin:0 .35em; line-height:1.3;}
+.frac .num{border-bottom:1.5px solid currentColor; padding:0 .3em .12em; white-space:nowrap;}
+.frac .den{padding:.12em .3em 0; white-space:nowrap;}
+.var-legend{list-style:none; margin:0; padding:0; font-size:.83rem; color:var(--ink-muted);}
+.var-legend li{display:flex; gap:.6em; padding:.25em 0; border-top:1px dotted var(--line);}
+.var-legend li:first-child{border-top:none;}
+.var-legend b{color:var(--ink-2); font-family:var(--font-mono); min-width:2.4em; flex:none;}
+
+/* ============================================================
+   7. TABLES
+   ============================================================ */
+.table-wrap{overflow-x:auto; margin:var(--space-4) 0; border:1px solid var(--line); border-radius:var(--radius-md);}
+table{width:100%; border-collapse:collapse; font-size:.88rem; background:var(--paper-card);}
+th,td{padding:.65em .9em; text-align:left; border-bottom:1px solid var(--line);}
+thead th{background:var(--paper); color:var(--ink-2); font-weight:600; font-size:.72rem; text-transform:uppercase; letter-spacing:.05em; border-bottom:1px solid var(--line-strong);}
+tbody tr:last-child td{border-bottom:none;}
+tbody tr:hover{background:var(--ol-soft);}
+td.num, th.num{font-family:var(--font-mono); text-align:right;}
+
+/* ============================================================
+   8. TAGS, PLACEHOLDERS, STEP NUMBERS
+   ============================================================ */
+.tag{display:inline-flex; align-items:center; font-size:.74rem; font-weight:600; padding:.15em .55em; border-radius:5px; line-height:1.5;}
+.tag.ol{background:var(--ol-soft); color:var(--ol);}
+.tag.ot{background:var(--ot-soft); color:var(--ot);}
+.tag.neutral{background:var(--line); color:var(--ink-2);}
+
+.placeholder{color:var(--ink-muted); border-bottom:1.5px dashed var(--line-strong); padding:0 .1em;}
+.nb{white-space:nowrap;} /* keeps a symbol and its sub/superscript from breaking across lines */
+
+.steps-list{list-style:none; margin:0; padding:0; counter-reset:step;}
+.steps-list > li{
+  position:relative; padding-left:2.6em; margin:0 0 var(--space-5); counter-increment:step;
+}
+.steps-list > li::before{
+  content:counter(step); position:absolute; left:0; top:-2px; width:1.9em; height:1.9em;
+  border:1.5px solid var(--ol); color:var(--ol); border-radius:50%;
+  display:flex; align-items:center; justify-content:center; font-family:var(--font-mono); font-weight:600; font-size:.85rem;
+  background:var(--paper-card);
+}
+.steps-list > li h4{margin:.05em 0 .4em;}
+
+.fit-steps{counter-reset:fitstep;}
+.fit-steps > li::before{counter-increment:fitstep; content:counter(fitstep); border-color:var(--ot); color:var(--ot);}
+
+/* ============================================================
+   9. DIAGRAMS
+   ============================================================ */
+.diagram{
+  background:var(--paper-card); border:1px solid var(--line); border-radius:var(--radius-md);
+  padding:var(--space-5); margin:var(--space-5) 0; text-align:center;
+}
+.diagram svg{width:100%; height:auto; max-width:560px;}
+.diagram-caption{display:block; margin-top:.7em; font-size:.76rem; color:var(--ink-muted); font-family:var(--font-mono);}
+.mini-diagrams{display:grid; grid-template-columns:repeat(3,1fr); gap:var(--space-4);}
+@media (max-width:640px){ .mini-diagrams{grid-template-columns:1fr;} }
+.mini-diagram{background:var(--paper-card); border:1px solid var(--line); border-radius:var(--radius-md); padding:var(--space-3); text-align:center;}
+.mini-diagram p{font-size:.78rem; color:var(--ink-muted); margin:.5em 0 0;}
+
+/* ============================================================
+   10. FORMULAIRE (cheat sheet) GRID
+   ============================================================ */
+.formulaire-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:var(--space-4);}
+@media (max-width:700px){ .formulaire-grid{grid-template-columns:1fr;} }
+.f-item{border:1px solid var(--line); border-radius:var(--radius-md); background:var(--paper-card); padding:var(--space-4);}
+.f-item .f-name{font-family:var(--font-display); font-weight:600; font-size:.85rem; color:var(--ink-2); margin-bottom:.5em; display:flex; justify-content:space-between; align-items:center; gap:.5em;}
+.f-item .f-name a{font-family:var(--font-mono); font-size:.68rem; color:var(--ink-muted); text-decoration:none; border:1px solid var(--line-strong); padding:.15em .5em; border-radius:999px;}
+.f-item .f-name a:hover{color:var(--ol); border-color:var(--ol);}
+.f-item .formula-display{margin:0; padding:var(--space-3); font-size:1rem;}
+
+/* ============================================================
+   11. GLOSSARY
+   ============================================================ */
+.glossary{display:grid; grid-template-columns:1fr; gap:0; border-top:1px solid var(--line);}
+.g-row{display:grid; grid-template-columns:110px 1fr; gap:var(--space-4); padding:var(--space-3) 0; border-bottom:1px solid var(--line);}
+.g-row dt{font-family:var(--font-mono); font-weight:600; color:var(--ol);}
+.g-row dd{margin:0; color:var(--ink-2);}
+@media (max-width:600px){ .g-row{grid-template-columns:1fr;} }
+
+/* ============================================================
+   12. FOOTER, BACK-TO-TOP, MISC
+   ============================================================ */
+footer.site-footer{
+  border-top:1px solid var(--line); margin-top:var(--space-8); padding-top:var(--space-5);
+  color:var(--ink-muted); font-size:.82rem; display:flex; justify-content:space-between; flex-wrap:wrap; gap:1em;
+}
+footer.site-footer a{color:var(--ink-muted);}
+
+.back-to-top{
+  position:fixed; right:26px; bottom:26px; z-index:45;
+  width:44px; height:44px; border-radius:50%; border:1px solid var(--line-strong);
+  background:var(--paper-card); color:var(--ink); box-shadow:var(--shadow);
+  display:flex; align-items:center; justify-content:center; cursor:pointer;
+  opacity:0; transform:translateY(8px); pointer-events:none; transition:opacity .25s ease, transform .25s ease;
+}
+.back-to-top.show{opacity:1; transform:translateY(0); pointer-events:auto;}
+.back-to-top svg{width:18px;height:18px;}
+
+/* Content renders at full clarity immediately — no scroll-triggered fade-in on this
+   page, since it's navigated by jumping to sections (sidebar/search), not by a single
+   linear read-through. A fade-in that hasn't finished by the time you arrive would
+   just mean momentarily-hard-to-read text, which fights the whole point of the page. */
+
+.search-hide{display:none !important;}
+mark{background:var(--ot-soft); color:var(--ink); border-radius:3px; padding:0 .1em;}
+
+/* ============================================================
+   13. RESPONSIVE — MOBILE NAV
+   ============================================================ */
+@media (max-width:1024px){
+  .sidebar{transform:translateX(-100%);}
+  .sidebar.open{transform:translateX(0); box-shadow:var(--shadow-lg);}
+  main{margin-left:0;}
+  .topbar{display:flex;}
+  .nav-scrim.show{display:block;}
+  .content-wrap{padding-top:var(--space-6);}
+}
+@media (max-width:520px){
+  body{font-size:16px;}
+  .content-wrap{padding-left:var(--space-4); padding-right:var(--space-4);}
+  .content-wrap::before{left:14px;}
+}
+
+/* ============================================================
+   14. PRINT
+   ============================================================ */
+@media print{
+  .sidebar, .topbar, .back-to-top, .theme-toggle, .reviewed-toggle, .nav-scrim{display:none !important;}
+  main{margin-left:0;}
+  body{background:#fff; color:#000;}
+  .content-wrap::before{display:none;}
+  a{color:#000; text-decoration:underline;}
+  .card, .formula-card, .example-card, .callout, .diagram{break-inside:avoid; box-shadow:none;}
+}
+</style>
+</head>
+<body>
+<a href="#main-content" class="skip-link">Aller au contenu</a>
+
+<!-- ============ MOBILE TOPBAR ============ -->
+<div class="topbar">
+  <button class="icon-btn" id="navToggle" aria-label="Ouvrir le sommaire" aria-expanded="false">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18" stroke-linecap="round"/></svg>
+  </button>
+  <span class="t-title">Cahier US · Révisions</span>
+</div>
+<div class="nav-scrim" id="navScrim"></div>
+
+<div class="app">
+  <!-- ============ SIDEBAR ============ -->
+  <nav class="sidebar" id="sidebar" aria-label="Sommaire">
+    <div class="sidebar-brand">
+      <div class="mark"><span class="dot"></span> Cahier&nbsp;US</div>
+      <div class="sub">COFREND · Ultrasons · Niveau 2</div>
+    </div>
+    <div class="search-wrap">
+      <input type="search" id="searchInput" placeholder="Rechercher une formule, un mot…" aria-label="Rechercher dans le cahier">
+      <div class="search-hint" id="searchHint">&nbsp;</div>
+    </div>
+    <div class="nav-scroll">
+      <ul class="nav-list">
+        <li><a href="#accueil" data-target="accueil"><span class="n">＃</span> Accueil</a></li>
+        <li><a href="#ondes" data-target="ondes"><span class="n">01</span> Les ondes ultrasonores</a></li>
+        <li><a href="#grandeurs" data-target="grandeurs"><span class="n">02</span> Grandeurs &amp; formules</a></li>
+        <li><a href="#snell" data-target="snell"><span class="n">03</span> Loi de Snell-Descartes</a></li>
+        <li><a href="#champs" data-target="champs"><span class="n">04</span> Champs acoustiques</a></li>
+        <li><a href="#etalonnage" data-target="etalonnage"><span class="n">05</span> Étalonnage appareil US</a></li>
+        <li><a href="#avg" data-target="avg"><span class="n">06</span> Méthode AVG (DGS)</a></li>
+        <li><a href="#forge" data-target="forge"><span class="n">07</span> Pièces forgées</a></li>
+        <li><a href="#fit" data-target="fit"><span class="n">08</span> Procédure FIT complète</a></li>
+        <li class="nav-divider"></li>
+        <li><a href="#formulaire" data-target="formulaire"><span class="n">Σ</span> Formulaire récap.</a></li>
+        <li><a href="#glossaire" data-target="glossaire"><span class="n">?</span> Glossaire</a></li>
+      </ul>
+    </div>
+    <div class="sidebar-footer">
+      <div class="progress-row"><span>Progression de révision</span><span id="progressPercent">0%</span></div>
+      <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+      <button class="theme-toggle" id="themeToggle" aria-label="Changer d'apparence">
+        <span class="lbl-cahier">☀ Mode Cahier</span>
+        <span class="lbl-oscillo">◐ Mode Oscillo</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v2m0 14v2M4.2 4.2l1.4 1.4m12.8 12.8l1.4 1.4M3 12h2m14 0h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4" stroke-linecap="round"/><circle cx="12" cy="12" r="4"/></svg>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ============ MAIN ============ -->
+  <main id="main-content">
+    <div class="content-wrap">
+
+      <!-- ============ HERO / ACCUEIL ============ -->
+      <section id="accueil">
+        <div class="hero">
+          <div>
+            <span class="hero-eyebrow">Fiches de révision personnelles</span>
+            <h1>Tout ton cahier d'ultrasons,<br><em>relu, rangé, révisable.</em></h1>
+            <p class="lead">La mise au propre de tes notes manuscrites pour le passage <strong>COFREND Ultrasons Niveau&nbsp;2</strong> : théorie des ondes, Snell-Descartes, champs acoustiques, étalonnage, méthode AVG, pièces forgées et la procédure FIT complète — dans l'ordre logique, avec formules, exemples chiffrés et schémas.</p>
+            <div class="hero-actions">
+              <a href="#ondes" class="btn btn-primary">Commencer la révision →</a>
+              <a href="#formulaire" class="btn btn-ghost">Aller au formulaire</a>
+            </div>
+          </div>
+          <div class="hero-scope">
+            <div class="scope-head"><span>A-SCAN — vue écran</span><span class="scope-dots"><span></span><span></span><span></span></span></div>
+            <svg viewBox="0 0 560 220" aria-hidden="true">
+              <defs>
+                <linearGradient id="scopeGlow" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="var(--ol)" stop-opacity=".35"/>
+                  <stop offset="100%" stop-color="var(--ol)" stop-opacity="0"/>
+                </linearGradient>
+              </defs>
+              <!-- graticule -->
+              <g stroke="var(--line)" stroke-width="1">
+                <line x1="0" y1="55" x2="560" y2="55"/>
+                <line x1="0" y1="110" x2="560" y2="110"/>
+                <line x1="0" y1="165" x2="560" y2="165"/>
+              </g>
+              <!-- baseline -->
+              <line x1="20" y1="190" x2="540" y2="190" stroke="var(--line-strong)" stroke-width="1.5"/>
+              <!-- gate (porte) around the flaw echo -->
+              <rect x="215" y="60" width="80" height="130" fill="var(--ot)" opacity=".08"/>
+              <line x1="215" y1="60" x2="215" y2="190" stroke="var(--ot)" stroke-dasharray="3 3" stroke-width="1.2"/>
+              <line x1="295" y1="60" x2="295" y2="190" stroke="var(--ot)" stroke-dasharray="3 3" stroke-width="1.2"/>
+              <text x="255" y="50" text-anchor="middle" fill="var(--ot)" font-size="10" font-family="var(--font-mono)">PORTE</text>
+              <!-- initial pulse -->
+              <path class="ascan-path" d="M20,190 L55,190 L62,25 L68,150 L74,60 L80,175 L86,190 L110,190"
+                fill="none" stroke="var(--ink-muted)" stroke-width="2" stroke-linejoin="round"/>
+              <text x="60" y="15" text-anchor="middle" fill="var(--ink-muted)" font-size="10" font-family="var(--font-mono)">IMPULSION</text>
+              <!-- defect echo -->
+              <path class="ascan-path" d="M110,190 L245,190 L253,95 L261,190 L300,190"
+                fill="none" stroke="var(--crit)" stroke-width="2.2" stroke-linejoin="round"/>
+              <text x="253" y="85" text-anchor="middle" fill="var(--crit)" font-size="10" font-family="var(--font-mono)">ÉCHO DÉFAUT</text>
+              <!-- backwall echo -->
+              <path class="ascan-path" d="M300,190 L455,190 L465,45 L475,190 L540,190"
+                fill="none" stroke="var(--ol)" stroke-width="2.4" stroke-linejoin="round"/>
+              <text x="465" y="35" text-anchor="middle" fill="var(--ol)" font-size="10" font-family="var(--font-mono)">ÉCHO DE FOND</text>
+            </svg>
+            <div class="scope-legend">
+              <span><i style="background:var(--ink-muted)"></i> Impulsion initiale</span>
+              <span><i style="background:var(--crit)"></i> Écho de défaut (ED)</span>
+              <span><i style="background:var(--ol)"></i> Écho de fond (EF)</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top:0;">
+          <h4 style="margin-top:0;">Comment utiliser ce cahier</h4>
+          <div class="grid-3">
+            <div><strong>🔍 Rechercher</strong><p style="margin:.3em 0 0; font-size:.9rem; color:var(--ink-muted);">Utilise la barre de recherche dans le sommaire pour retrouver une formule ou une notion en un instant.</p></div>
+            <div><strong>✅ Suivre sa progression</strong><p style="margin:.3em 0 0; font-size:.9rem; color:var(--ink-muted);">Coche « révisé » en haut de chaque chapitre — la barre de progression se met à jour automatiquement (sauvegardée sur cet appareil).</p></div>
+            <div><strong>◐ Cahier / Oscillo</strong><p style="margin:.3em 0 0; font-size:.9rem; color:var(--ink-muted);">Bascule entre le mode clair « cahier » et le mode sombre « écran d'oscilloscope » selon la lumière ambiante.</p></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ 01 ONDES ============ -->
+      <section id="ondes" class="chapter">
+        <div class="chapter-head">
+          <div>
+            <span class="chapter-eyebrow">Chapitre 01</span>
+            <h2>Les ondes ultrasonores</h2>
+            <p class="dek">Comment l'appareil US génère le faisceau, et comment se comportent les trois familles d'ondes — longitudinales, transversales, de surface — dans la pièce contrôlée.</p>
+          </div>
+          <button class="reviewed-toggle" data-chapter="ondes" data-on="false">
+            <span class="box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            Marquer comme révisé
+          </button>
+        </div>
+
+        <div class="card" style="display:flex; align-items:center; justify-content:center; gap:.7em; flex-wrap:wrap; text-align:center; font-family:var(--font-mono); font-size:.82rem;">
+          <span class="tag neutral">Énergie électrique</span><span style="color:var(--ink-muted)">→</span>
+          <span class="tag neutral">Appareil US</span><span style="color:var(--ink-muted)">→</span>
+          <span class="tag ol">Énergie mécanique</span><span style="color:var(--ink-muted)">→</span>
+          <span class="tag ol">Élément piézo-électrique</span><span style="color:var(--ink-muted)">→</span>
+          <span class="tag neutral">Vibration acoustique</span>
+        </div>
+
+        <div class="grid-2">
+          <div class="card subhead-ol">
+            <h3><span class="tag ol">OL</span> Ondes longitudinales <span style="font-weight:400;color:var(--ink-muted);font-family:var(--font-body);">— ou de compression</span></h3>
+            <ul>
+              <li>Ondes <strong>parallèles</strong> aux vibrations des particules.</li>
+              <li>Plus grand pouvoir de pénétration dans un matériau à gros grain.</li>
+              <li>L'angle réfracté de l'OL est <strong>toujours supérieur</strong> à l'angle réfracté de l'OT.</li>
+              <li>En zone réfractée, l'OL atteint l'angle critique <strong>avant</strong> l'OT.</li>
+              <li>Vitesse de propagation la plus élevée dans l'acier.</li>
+            </ul>
+          </div>
+          <div class="card subhead-ot">
+            <h3><span class="tag ot">OT</span> Ondes transversales <span style="font-weight:400;color:var(--ink-muted);font-family:var(--font-body);">— ou de cisaillement</span></h3>
+            <ul>
+              <li>Ondes <strong>perpendiculaires</strong> à la direction des particules.</li>
+              <li>L'angle réfracté de l'OT est <strong>toujours inférieur</strong> à celui de l'OL.</li>
+              <li>Ondes plus courtes que les OL, mais plus longues que les ondes de surface.</li>
+              <li>Moins rapides que les OL.</li>
+              <li>Détectent <strong>mieux</strong> les petites discontinuités que les OL.</li>
+            </ul>
+          </div>
+        </div>
+
+        <h3><span class="num">·</span>Ondes de surface</h3>
+        <p>Ce sont les ondes qui produisent l'impulsion de longueur d'onde la plus courte.</p>
+        <div class="grid-2">
+          <div class="callout savoir">
+            <div class="callout-title">Ondes de Rayleigh</div>
+            <p>Se propagent de façon longitudinale <em>et</em> transversale par rapport à la surface. Elles suivent également les formes géométriques de la pièce.</p>
+          </div>
+          <div class="callout astuce">
+            <div class="callout-title">Ondes de Lamb</div>
+            <p>Utilisées pour contrôler des tôles minces (≤ 3 mm). En l'absence de courbe de référence, l'angle d'incidence retenu est celui qui donne l'amplitude maximale.</p>
+          </div>
+        </div>
+
+        <h3><span class="num">·</span>Effet de la taille des grains</h3>
+        <div class="callout important">
+          <div class="callout-title">À retenir</div>
+          <ul style="margin-bottom:0;">
+            <li>Grains grossiers → les ondes passent moins bien → l'écho de fond (EF) sera <strong>faible</strong>.</li>
+            <li>Ce sont les <span class="tag ol">OL</span> qui passent le mieux dans les matériaux à gros grains.</li>
+            <li>Une augmentation importante de la grosseur des grains produit une <strong>chute brutale de l'écho de fond</strong>, sans indication de discontinuité.</li>
+          </ul>
+        </div>
+
+        <h3><span class="num">·</span>Réflexion / réfraction à une interface</h3>
+        <p>Une onde incidente qui atteint l'interface entre deux milieux se scinde : une partie se réfléchit dans le milieu 1, une partie se réfracte dans le milieu 2 — avec, dans chaque cas, une possible conversion de mode entre OL et OT. C'est cette réfraction que décrit la <a href="#snell">loi de Snell-Descartes</a>.</p>
+
+        <div class="diagram">
+          <svg viewBox="0 0 400 300" role="img" aria-label="Schéma de réfraction d'une onde à l'interface entre deux milieux">
+            <text x="30" y="42" fill="var(--ink-muted)" font-size="12" font-family="var(--font-mono)">MILIEU 1</text>
+            <text x="30" y="272" fill="var(--ink-muted)" font-size="12" font-family="var(--font-mono)">MILIEU 2</text>
+            <line x1="20" y1="140" x2="380" y2="140" stroke="var(--ink)" stroke-width="1.5"/>
+            <line x1="200" y1="25" x2="200" y2="280" stroke="var(--line-strong)" stroke-width="1.2" stroke-dasharray="4 4"/>
+            <text x="204" y="292" fill="var(--ink-muted)" font-size="11" font-family="var(--font-mono)">normale</text>
+            <line x1="187" y1="28" x2="200" y2="140" stroke="var(--ink)" stroke-width="2"/>
+            <text x="118" y="65" fill="var(--ink)" font-size="12" font-family="var(--font-mono)">onde incidente</text>
+            <line x1="200" y1="140" x2="229" y2="246" stroke="var(--ot)" stroke-width="2.6"/>
+            <text x="234" y="253" fill="var(--ot)" font-size="12.5" font-weight="600" font-family="var(--font-mono)">OT réfractée</text>
+            <line x1="200" y1="140" x2="254" y2="236" stroke="var(--ol)" stroke-width="2.6"/>
+            <text x="258" y="228" fill="var(--ol)" font-size="12.5" font-weight="600" font-family="var(--font-mono)">OL réfractée</text>
+            <circle cx="200" cy="140" r="3" fill="var(--marge)"/>
+          </svg>
+          <span class="diagram-caption">L'angle réfracté de l'OL est toujours plus ouvert que celui de l'OT — voir le chapitre 03 pour le calcul exact.</span>
+        </div>
+      </section>
+
+      <!-- ============ 02 GRANDEURS ============ -->
+      <section id="grandeurs" class="chapter">
+        <div class="chapter-head">
+          <div>
+            <span class="chapter-eyebrow">Chapitre 02</span>
+            <h2>Grandeurs physiques &amp; formules de base</h2>
+            <p class="dek">Les quatre grandeurs à connaître par cœur avant tout calcul : longueur d'onde, épaisseur du piézo, impédance acoustique, coefficients de réflexion et de transmission.</p>
+          </div>
+          <button class="reviewed-toggle" data-chapter="grandeurs" data-on="false">
+            <span class="box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            Marquer comme révisé
+          </button>
+        </div>
+
+        <h3><span class="num">·</span>Longueur d'onde</h3>
+        <div class="formula-card">
+          <div class="formula-display"><span class="eq">λ&nbsp;=&nbsp;<span class="frac"><span class="num">Célérité C</span><span class="den">Fréquence f</span></span></span></div>
+          <p style="margin-bottom:0;color:var(--ink-muted);font-size:.92rem;">La longueur d'onde est la distance minimale séparant deux points vibrant en phase, pour une onde en cours de propagation.</p>
+        </div>
+        <div class="example-card">
+          <span class="example-tag">Exemple</span>
+          <p style="margin-top:0;">Longueur d'onde d'une OL dans un milieu à 5930 m/s, à une fréquence de 2 MHz :</p>
+          <div class="data-line">λ = 5930 ÷ (2×10<sup>6</sup>)</div>
+          <div class="result">λ = 0,002965 m soit 2,965 mm</div>
+        </div>
+
+        <h3><span class="num">·</span>Épaisseur de l'élément piézo-électrique</h3>
+        <div class="formula-card">
+          <div class="formula-display"><span class="eq">e&nbsp;=&nbsp;<span class="frac"><span class="num">λ</span><span class="den">2</span></span></span></div>
+          <p style="margin-bottom:0;color:var(--ink-muted);font-size:.92rem;">Formule utilisée pour déceler le plus petit défaut décelable par le traducteur.</p>
+        </div>
+        <div class="example-card">
+          <span class="example-tag">Exemple</span>
+          <p style="margin-top:0;">Traducteur à 1 MHz, célérité du matériau = 5720 m/s :</p>
+          <div class="data-line">λ = 5720 ÷ (1×10<sup>6</sup>) = 0,00572 m soit 5,72 mm</div>
+          <div class="data-line">e = λ ÷ 2 = 5,72 ÷ 2</div>
+          <div class="result">e = 2,86 mm</div>
+        </div>
+
+        <h3><span class="num">·</span>Impédance acoustique</h3>
+        <div class="formula-card">
+          <div class="formula-display"><span class="eq">Z&nbsp;=&nbsp;ρ&nbsp;×&nbsp;C</span></div>
+          <ul class="var-legend">
+            <li><b>ρ</b> masse volumique du milieu</li>
+            <li><b>C</b> célérité (vitesse) dans le milieu</li>
+          </ul>
+          <p style="margin:.8em 0 0;color:var(--ink-muted);font-size:.92rem;">C'est la « perméabilité » du milieu au passage des ondes : plus l'impédance est grande, plus les ondes passent facilement.</p>
+        </div>
+
+        <div class="mini-diagrams">
+          <div class="mini-diagram">
+            <svg viewBox="0 0 140 150">
+              <text x="70" y="16" text-anchor="middle" font-size="9.5" fill="var(--ink-muted)" font-family="var(--font-mono)">MILIEU 1</text>
+              <line x1="8" y1="72" x2="132" y2="72" stroke="var(--ink)" stroke-width="1.5"/>
+              <text x="70" y="136" text-anchor="middle" font-size="9.5" fill="var(--ink-muted)" font-family="var(--font-mono)">MILIEU 2</text>
+              <line x1="70" y1="24" x2="70" y2="118" stroke="var(--ol)" stroke-width="3"/>
+              <polygon points="64,110 76,110 70,122" fill="var(--ol)"/>
+            </svg>
+            <p><b style="color:var(--ink-2)">Si Z1 = Z2</b><br>transmission totale, aucun écho de réflexion.</p>
+          </div>
+          <div class="mini-diagram">
+            <svg viewBox="0 0 140 150">
+              <text x="70" y="16" text-anchor="middle" font-size="9.5" fill="var(--ink-muted)" font-family="var(--font-mono)">MILIEU 1</text>
+              <line x1="8" y1="72" x2="132" y2="72" stroke="var(--ink)" stroke-width="1.5"/>
+              <text x="70" y="136" text-anchor="middle" font-size="9.5" fill="var(--ink-muted)" font-family="var(--font-mono)">MILIEU 2</text>
+              <line x1="70" y1="24" x2="70" y2="70" stroke="var(--ink)" stroke-width="2.6"/>
+              <line x1="70" y1="72" x2="70" y2="118" stroke="var(--ol)" stroke-width="1.8"/>
+              <polygon points="64,110 76,110 70,122" fill="var(--ol)"/>
+              <line x1="70" y1="70" x2="100" y2="34" stroke="var(--crit)" stroke-width="2"/>
+              <polygon points="93,40 104,37 97,28" fill="var(--crit)"/>
+            </svg>
+            <p><b style="color:var(--ink-2)">Si Z1 &gt; Z2</b><br>réflexion partielle + transmission partielle.</p>
+          </div>
+          <div class="mini-diagram">
+            <svg viewBox="0 0 140 150">
+              <text x="70" y="16" text-anchor="middle" font-size="9.5" fill="var(--ink-muted)" font-family="var(--font-mono)">MILIEU 1</text>
+              <line x1="8" y1="72" x2="132" y2="72" stroke="var(--ink)" stroke-width="1.5"/>
+              <text x="70" y="136" text-anchor="middle" font-size="9.5" fill="var(--ink-muted)" font-family="var(--font-mono)">MILIEU 2</text>
+              <line x1="70" y1="24" x2="70" y2="70" stroke="var(--ink)" stroke-width="2.6"/>
+              <line x1="70" y1="72" x2="70" y2="118" stroke="var(--ol)" stroke-width="1.8"/>
+              <polygon points="64,110 76,110 70,122" fill="var(--ol)"/>
+              <line x1="70" y1="70" x2="100" y2="34" stroke="var(--crit)" stroke-width="2"/>
+              <polygon points="93,40 104,37 97,28" fill="var(--crit)"/>
+            </svg>
+            <p><b style="color:var(--ink-2)">Si Z1 &lt; Z2</b><br>réflexion partielle + transmission partielle.</p>
+          </div>
+        </div>
+
+        <h3><span class="num">·</span>Coefficients de réflexion et de transmission</h3>
+        <p>À l'interface entre deux milieux d'impédances Z1 et Z2 :</p>
+        <div class="grid-2">
+          <div class="formula-card">
+            <h4 style="margin-top:0;">Coefficient de réflexion (Er)</h4>
+            <div class="formula-display"><span class="eq">Er&nbsp;=&nbsp;<span class="frac"><span class="num">(Z1 − Z2)²</span><span class="den">(Z1 + Z2)²</span></span></span></div>
+            <p style="margin-bottom:0;font-size:.85rem;color:var(--ink-muted);">Part de l'onde réfléchie à l'interface des 2 milieux.</p>
+          </div>
+          <div class="formula-card">
+            <h4 style="margin-top:0;">Coefficient de transmission (Et)</h4>
+            <div class="formula-display"><span class="eq">Et&nbsp;=&nbsp;<span class="frac"><span class="num">4 × Z1 × Z2</span><span class="den">(Z1 + Z2)²</span></span></span></div>
+            <p style="margin-bottom:0;font-size:.85rem;color:var(--ink-muted);">Part de l'onde transmise du milieu 1 vers le milieu 2.</p>
+          </div>
+        </div>
+
+        <div class="callout savoir">
+          <div class="callout-title">Trois cas classiques à connaître</div>
+          <ul style="margin-bottom:0;">
+            <li>Interface <strong>solide / air</strong> → l'onde US est <strong>totalement réfléchie</strong>.</li>
+            <li>Interface entre <strong>mêmes métaux</strong> → l'onde passe à <strong>100 %</strong> du milieu 1 vers le milieu 2.</li>
+            <li>Interface <strong>eau → acier</strong> → l'onde est <strong>partiellement réfléchie</strong>, le reste pénètre dans l'acier.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- ============ 03 SNELL ============ -->
+      <section id="snell" class="chapter">
+        <div class="chapter-head">
+          <div>
+            <span class="chapter-eyebrow">Chapitre 03</span>
+            <h2>Loi de Snell-Descartes</h2>
+            <p class="dek">La loi qui relie l'angle d'incidence dans le sabot (plexiglas ou eau) à l'angle de réfraction de l'OL et de l'OT dans la pièce.</p>
+          </div>
+          <button class="reviewed-toggle" data-chapter="snell" data-on="false">
+            <span class="box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            Marquer comme révisé
+          </button>
+        </div>
+
+        <div class="formula-card">
+          <div class="formula-display">
+            <span class="eq"><span class="frac"><span class="num">Sin (angle milieu 1)</span><span class="den">Vitesse milieu 1</span></span>&nbsp;=&nbsp;<span class="frac"><span class="num">Sin (angle milieu 2)</span><span class="den">Vitesse milieu 2</span></span></span>
+          </div>
+        </div>
+
+        <h3><span class="num">·</span>Vitesses à connaître (m/s)</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Matériau</th><th class="num">OL</th><th class="num">OT</th></tr></thead>
+            <tbody>
+              <tr><td>Eau</td><td class="num">1483</td><td class="num">n'existe pas</td></tr>
+              <tr><td>Acier</td><td class="num">5920</td><td class="num">3230</td></tr>
+              <tr><td>Plexiglas</td><td class="num">2680</td><td class="num">1450</td></tr>
+              <tr><td>Air</td><td class="num">333</td><td class="num">n'existe pas</td></tr>
+              <tr><td>Aluminium</td><td class="num">6320</td><td class="num">3130</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="font-size:.85rem;color:var(--ink-muted);">Les OT n'existent pas dans les liquides ni dans les gaz (pas de résistance au cisaillement) — c'est pourquoi l'eau et l'air n'ont pas de vitesse OT.</p>
+
+        <div class="callout astuce">
+          <div class="callout-title">ℹ️ à propos des exemples ci-dessous</div>
+          <p style="margin-bottom:0;">Les trois exemples suivants utilisent des valeurs légèrement arrondies (eau 1480 m/s, acier OL 5950 m/s, acier OT 3200 m/s) par rapport au tableau ci-dessus — c'est normal, les constructeurs de blocs d'étalonnage arrondissent parfois différemment. Garde toujours les valeurs données par l'énoncé le jour de l'examen.</p>
+        </div>
+
+        <h3><span class="num">·</span>Exemple 1 — trouver l'angle réfracté de l'OL</h3>
+        <div class="example-card">
+          <span class="example-tag">Exemple</span>
+          <p style="margin-top:0;">Faisceau d'incidence = 7° de l'eau vers l'acier. Angle réfracté de l'OL dans l'acier&nbsp;?</p>
+          <div class="data-line">sin(7°) / 1480&nbsp;&nbsp;=&nbsp;&nbsp;sin(θ<sub>OL</sub>) / 5950</div>
+          <div class="data-line">θ<sub>OL</sub> = ArcSin( sin(7°) × 5950 / 1480 ) = ArcSin(0,489)</div>
+          <div class="result">θ<sub>OL</sub> = 29,27°</div>
+        </div>
+
+        <h3><span class="num">·</span>Exemple 2 — trouver l'angle réfracté de l'OT</h3>
+        <div class="example-card">
+          <span class="example-tag">Exemple</span>
+          <p style="margin-top:0;">Mêmes conditions (7°, eau → acier). Angle réfracté de l'OT dans l'acier&nbsp;?</p>
+          <div class="data-line">sin(7°) / 1480&nbsp;&nbsp;=&nbsp;&nbsp;sin(θ<sub>OT</sub>) / 3200</div>
+          <div class="data-line">θ<sub>OT</sub> = ArcSin( sin(7°) × 3200 / 1480 ) = ArcSin(0,263)</div>
+          <div class="result">θ<sub>OT</sub> = 15,24°</div>
+        </div>
+        <p style="font-size:.9rem;color:var(--ink-muted);">Comparer les exemples 1 et 2 : pour un même angle d'incidence, l'OL (29,3°) réfracte toujours plus que l'OT (15,2°) — cohérent avec le chapitre 01.</p>
+
+        <h3><span class="num">·</span>Exemple 3 — l'angle critique (OL à 90°)</h3>
+        <div class="example-card">
+          <span class="example-tag">Exemple</span>
+          <p style="margin-top:0;">De l'eau vers l'acier, quel angle d'incidence donne un angle réfracté d'OL de 90° ?</p>
+          <div class="data-line">sin(θ<sub>eau</sub>) / 1480&nbsp;&nbsp;=&nbsp;&nbsp;sin(90°) / 5950</div>
+          <div class="data-line">θ<sub>eau</sub> = ArcSin( sin(90°) × 1480 / 5950 ) = ArcSin(0,248)</div>
+          <div class="result">θ<sub>eau</sub> = 14,36°</div>
+          <p style="margin:.8em 0 0; font-size:.88rem; color:var(--ink-muted);">Ce cas particulier correspond au <strong>premier angle critique</strong> : au-delà de cet angle d'incidence, l'OL ne se réfracte plus dans l'acier (elle « rase » la surface) — seule l'OT continue à s'y propager. C'est ce principe qui permet de choisir un sabot d'angle ne générant que de l'OT dans la pièce.</p>
+        </div>
+      </section>
+
+      <!-- ============ 04 CHAMPS ============ -->
+      <section id="champs" class="chapter">
+        <div class="chapter-head">
+          <div>
+            <span class="chapter-eyebrow">Chapitre 04</span>
+            <h2>Champs acoustiques</h2>
+            <p class="dek">La géométrie du faisceau émis par le traducteur : champ proche (zone de Fresnel), zone focale, champ lointain (zone de Fraunhofer), et la fréquence de résonance de l'élément piézo.</p>
+          </div>
+          <button class="reviewed-toggle" data-chapter="champs" data-on="false">
+            <span class="box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            Marquer comme révisé
+          </button>
+        </div>
+
+        <div class="callout important">
+          <div class="callout-title">Effet d'une fréquence de traducteur plus élevée</div>
+          <ul style="margin-bottom:0;">
+            <li>L'atténuation de l'onde est plus importante.</li>
+            <li>On peut déceler de plus petits défauts.</li>
+            <li>Le pouvoir de résolution est meilleur.</li>
+            <li>L'élément actif (piézo) sera plus mince.</li>
+          </ul>
+        </div>
+
+        <h3><span class="num">·</span>Fréquence de résonance</h3>
+        <div class="grid-2">
+          <div class="formula-card">
+            <div class="formula-display"><span class="eq">e&nbsp;=&nbsp;<span class="frac"><span class="num">Célérité</span><span class="den">2 × fréquence f</span></span></span></div>
+          </div>
+          <div class="formula-card">
+            <div class="formula-display"><span class="eq">f&nbsp;=&nbsp;<span class="frac"><span class="num">Célérité</span><span class="den">2 × épaisseur e</span></span></span></div>
+          </div>
+        </div>
+        <div class="example-card">
+          <span class="example-tag">Exemple</span>
+          <p style="margin-top:0;">Épaisseur d'une tôle en acier de 1 cm, vitesse 5950 m/s :</p>
+          <div class="data-line">f = 5950 ÷ (2 × 1 cm) = 5950 ÷ (2 × 0,01)</div>
+          <div class="result">f = 300 000 Hz soit 0,3 MHz</div>
+        </div>
+
+        <h3><span class="num">·</span>Champ proche <span style="font-weight:400;color:var(--ink-muted);font-family:var(--font-body);">→ zone de Fresnel</span></h3>
+        <div class="formula-card">
+          <div class="formula-display">
+            <span class="eq"><span class="nb">N<sub>0</sub></span>&nbsp;=&nbsp;<span class="frac"><span class="num">D²</span><span class="den">4 × λ</span></span>&nbsp;&nbsp;=&nbsp;&nbsp;<span class="frac"><span class="num">D² × f</span><span class="den">4 × C</span></span></span>
+          </div>
+          <ul class="var-legend">
+            <li><b><span class="nb">N<sub>0</sub></span></b> longueur du champ proche</li>
+            <li><b>D</b> diamètre du palpeur (mm)</li>
+          </ul>
+          <p style="margin:.8em 0 0;color:var(--ink-muted);font-size:.9rem;">Utilisé avec la méthode <a href="#avg">AVG</a>. En contrôle par immersion, les effets du champ proche peuvent être éliminés en utilisant un traducteur focalisé.</p>
+        </div>
+        <div class="example-card">
+          <span class="example-tag">Exemple</span>
+          <p style="margin-top:0;">Palpeur Φ 20 mm, 2 MHz, contrôle d'une plaque acier :</p>
+          <div class="data-line">λ = C / f = 5920 ÷ (2×10<sup>6</sup>) = 0,00296 m</div>
+          <div class="data-line"><span class="nb">N<sub>0</sub></span> = 20² ÷ (4 × 2,96)</div>
+          <div class="result"><span class="nb">N<sub>0</sub></span> = 33,78 mm</div>
+        </div>
+        <div class="callout important">
+          <div class="callout-title">⚠ piège classique</div>
+          <p style="margin-bottom:0;">Le champ proche <strong>n'est pas</strong> la partie du champ sonore dans laquelle la pression acoustique décroît de façon monotone — dans le champ proche, la pression fluctue fortement (interférences) avant de décroître régulièrement dans le champ lointain.</p>
+        </div>
+
+        <div class="diagram">
+          <svg viewBox="0 0 300 420" role="img" aria-label="Schéma champ proche, zone focale, champ lointain">
+            <rect x="110" y="14" width="80" height="16" rx="2" fill="var(--ol)"/>
+            <text x="150" y="9" text-anchor="middle" font-size="10" fill="var(--ink-muted)" font-family="var(--font-mono)">TRADUCTEUR</text>
+            <path d="M112,30 L146,196" stroke="var(--line-strong)" stroke-width="1.5" fill="none"/>
+            <path d="M188,30 L174,196" stroke="var(--line-strong)" stroke-width="1.5" fill="none"/>
+            <ellipse cx="160" cy="199" rx="18" ry="13" fill="var(--ot)" opacity=".3" stroke="var(--ot)" stroke-width="1.5"/>
+            <path d="M146,209 L64,404" stroke="var(--line-strong)" stroke-width="1.5" fill="none"/>
+            <path d="M174,209 L242,404" stroke="var(--line-strong)" stroke-width="1.5" fill="none"/>
+            <line x1="193" y1="100" x2="222" y2="100" stroke="var(--line-strong)" stroke-width="1"/>
+            <text x="226" y="104" font-size="11.5" fill="var(--ol)" font-family="var(--font-mono)">Champ proche</text>
+            <line x1="179" y1="199" x2="222" y2="199" stroke="var(--line-strong)" stroke-width="1"/>
+            <text x="226" y="203" font-size="11.5" fill="var(--ot)" font-family="var(--font-mono)">Zone focale</text>
+            <line x1="220" y1="310" x2="222" y2="310" stroke="var(--line-strong)" stroke-width="1"/>
+            <text x="226" y="314" font-size="11.5" fill="var(--crit)" font-family="var(--font-mono)">Champ lointain</text>
+          </svg>
+          <span class="diagram-caption">Le faisceau se resserre dans le champ proche, atteint sa taille la plus fine en zone focale, puis diverge dans le champ lointain.</span>
+        </div>
+
+        <h3><span class="num">·</span>Champ lointain <span style="font-weight:400;color:var(--ink-muted);font-family:var(--font-body);">→ zone de Fraunhofer</span></h3>
+        <p>C'est la partie du faisceau qui diverge : la pression acoustique diminue continûment, et la divergence dépend de la taille et de la fréquence du traducteur.</p>
+        <div class="grid-2">
+          <div class="formula-card">
+            <div class="formula-display"><span class="eq">Sin&nbsp;Θ&nbsp;=&nbsp;K&nbsp;×&nbsp;<span class="frac"><span class="num">λ</span><span class="den">D</span></span></span></div>
+            <div class="formula-display" style="margin-top:.6em;"><span class="eq">Sin&nbsp;Θ&nbsp;=&nbsp;K&nbsp;×&nbsp;<span class="frac"><span class="num">C</span><span class="den">D × f</span></span></span></div>
+          </div>
+          <div class="table-wrap" style="margin-top:0;">
+            <table>
+              <thead><tr><th>K</th><th>Seuil</th></tr></thead>
+              <tbody>
+                <tr><td class="num">1,22</td><td>Divergence totale</td></tr>
+                <tr><td class="num">0,51</td><td>−6 dB</td></tr>
+                <tr><td class="num">0,87</td><td>−20 dB</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <ul class="var-legend" style="margin-top:.4em;">
+          <li><b>Θ</b> demi-angle de divergence</li>
+          <li><b>D</b> diamètre du traducteur (mm)</li>
+        </ul>
+        <div class="callout savoir">
+          <div class="callout-title">À retenir</div>
+          <ul style="margin-bottom:0;">
+            <li>La divergence du faisceau <strong>augmente</strong> si la fréquence <em>ou</em> le diamètre du traducteur <strong>diminue</strong>.</li>
+            <li>Une divergence importante peut faire apparaître une <strong>conversion de mode</strong> en cas de réflexion sur la face latérale de la pièce.</li>
+          </ul>
+        </div>
+
+        <h3><span class="num">·</span>Zone focale</h3>
+        <div class="formula-card">
+          <div class="formula-display"><span class="eq">Zone focale&nbsp;=&nbsp;2N&nbsp;−&nbsp;<span class="frac"><span class="num">2</span><span class="den">3</span></span>N</span></div>
+          <ul class="var-legend"><li><b>N</b> champ proche</li></ul>
+          <p style="margin:.8em 0 0;color:var(--ink-muted);font-size:.9rem;">C'est la zone où la pression acoustique ne descend pas en dessous de −6 dB : la zone la plus sensible à la détection. Son diamètre est égal au 1/4 du diamètre de l'élément actif.</p>
+        </div>
+      </section>
+
+      <!-- ============ 05 ETALONNAGE ============ -->
+      <section id="etalonnage" class="chapter">
+        <div class="chapter-head">
+          <div>
+            <span class="chapter-eyebrow">Chapitre 05 · NF EN ISO 22232-3</span>
+            <h2>Étalonnage de l'appareil ultrasons</h2>
+            <p class="dek">La cale V1, ce qu'elle sert à vérifier, puis les deux procédures complètes d'étalonnage : palpeur droit (E/R) et palpeur d'angle à 45°.</p>
+          </div>
+          <button class="reviewed-toggle" data-chapter="etalonnage" data-on="false">
+            <span class="box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            Marquer comme révisé
+          </button>
+        </div>
+
+        <h3><span class="num">·</span>La cale V1</h3>
+        <p>Les blocs étalons et pièces de référence permettent de contrôler les caractéristiques de l'appareil et des traducteurs, de régler la sensibilité d'examen, et de reproduire des conditions de réglages antérieurs.</p>
+
+        <div class="diagram">
+          <svg viewBox="0 0 500 220" role="img" aria-label="Schéma simplifié du bloc étalon V1 avec les points de contrôle A, B et C">
+            <path d="M100,40 A60,100 0 0,0 100,160 L460,160 A20,20 0 0,0 480,140 L480,60 A20,20 0 0,0 460,40 Z"
+                  fill="var(--paper)" stroke="var(--ink-2)" stroke-width="2"/>
+            <rect x="132" y="150" width="14" height="10" fill="var(--marge)"/>
+            <text x="139" y="182" text-anchor="middle" font-size="13" font-weight="700" fill="var(--marge)" font-family="var(--font-mono)">C</text>
+            <rect x="205" y="88" width="10" height="24" fill="var(--crit)"/>
+            <text x="210" y="76" text-anchor="middle" font-size="13" font-weight="700" fill="var(--crit)" font-family="var(--font-mono)">A</text>
+            <circle cx="400" cy="100" r="17" fill="none" stroke="var(--ol)" stroke-width="2.4"/>
+            <line x1="400" y1="80" x2="400" y2="70" stroke="var(--ol)" stroke-width="2"/>
+            <line x1="400" y1="120" x2="400" y2="130" stroke="var(--ol)" stroke-width="2"/>
+            <line x1="380" y1="100" x2="370" y2="100" stroke="var(--ol)" stroke-width="2"/>
+            <line x1="420" y1="100" x2="430" y2="100" stroke="var(--ol)" stroke-width="2"/>
+            <text x="400" y="147" text-anchor="middle" font-size="13" font-weight="700" fill="var(--ol)" font-family="var(--font-mono)">B</text>
+            <text x="400" y="162" text-anchor="middle" font-size="10" fill="var(--ink-muted)" font-family="var(--font-mono)">(B1–B4)</text>
+          </svg>
+          <span class="diagram-caption">Vue schématique — le grand rayon sert au palpeur d'angle, le trou central (B) aux 4 positions B1–B4.</span>
+        </div>
+
+        <div class="grid-3">
+          <div class="callout" style="border-left-color:var(--marge);">
+            <div class="callout-title" style="color:var(--marge);">Point C — palpeur d'angles</div>
+            <p style="margin-bottom:0;">Permet de déterminer le <strong>PE</strong> (point d'émergence) et de régler le « zéro ».</p>
+          </div>
+          <div class="callout" style="border-left-color:var(--crit);">
+            <div class="callout-title" style="color:var(--crit);">Point A — palpeur droit / E-R</div>
+            <p style="margin-bottom:0;">On estime le pouvoir de résolution en captant 3 hauteurs différentes.</p>
+          </div>
+          <div class="callout savoir">
+            <div class="callout-title">Point B — palpeur d'angles</div>
+            <p style="margin-bottom:0;">Permet de déterminer ou contrôler l'angle de réfraction, sur l'une des 4 positions (B1 à B4).</p>
+          </div>
+        </div>
+
+        <div class="callout astuce">
+          <div class="callout-title">À savoir</div>
+          <ul style="margin-bottom:0;">
+            <li>Les entailles permettent l'utilisation de palpeurs d'angles.</li>
+            <li>Pour régler la base de temps d'un traducteur OT, il faut tenir compte du parcours dans le coin en plexiglas à la vitesse des <span class="tag ol">OL</span>.</li>
+            <li>Une <strong>correction de transfert</strong>, c'est corriger la valeur de l'amplificateur si le matériau contrôlé n'est pas de même nature que le bloc de référence.</li>
+          </ul>
+        </div>
+
+        <h3><span class="num">·</span>Procédure A — palpeur droit (E/R)</h3>
+        <ol class="steps-list">
+          <li>
+            <h4>Préparer l'appareil US</h4>
+            <ul>
+              <li>Célérité à <strong>5930 m/s</strong></li>
+              <li>Échelle à <strong>100 mm</strong> en distance</li>
+            </ul>
+          </li>
+          <li>
+            <h4>Réglage en distance</h4>
+            <p>On positionne la cale V1 couchée pour une distance à 25 mm. On décale le « zéro » jusqu'à ce que le 1ᵉʳ écho de fond soit à 25 mm. On vérifie le 2ᵉ écho (à 50 mm) et le 3ᵉ écho (à 75 mm).</p>
+            <p style="color:var(--ink-muted); font-size:.9rem;">Ce réglage permet de régler le « zéro » et de calibrer le traducteur sur une distance.</p>
+          </li>
+          <li>
+            <h4>Réglage de la linéarité verticale</h4>
+            <p>Cale V1 couchée à 25 mm. On positionne le 1ᵉʳ écho de fond (EF) à 80 % de la hauteur d'écran (HE), puis :</p>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>± gain</th><th>Cible</th><th>Limites tolérées</th></tr></thead>
+                <tbody>
+                  <tr><td class="num">+2 dB</td><td>100 % HE</td><td>min. 95 % HE</td></tr>
+                  <tr><td class="num">Réf.</td><td>80 % HE</td><td>Réf.</td></tr>
+                  <tr><td class="num">−6 dB</td><td>40 % HE</td><td>37 à 43 % HE</td></tr>
+                  <tr><td class="num">−12 dB</td><td>20 % HE</td><td>17 à 23 % HE</td></tr>
+                  <tr><td class="num">−18 dB</td><td>10 % HE</td><td>8 à 12 % HE</td></tr>
+                  <tr><td class="num">−24 dB</td><td>5 % HE</td><td>inf. à 3</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <p style="color:var(--ink-muted); font-size:.9rem;">Ce réglage permet de surveiller le résultat combiné de 2 caractéristiques affectant la linéarité du gain de l'appareil : la linéarité de l'amplificateur, et l'exactitude du réglage du gain étalonné.</p>
+          </li>
+          <li>
+            <h4>Rapport Signal / Bruit</h4>
+            <p>On positionne la cale V1 pour capter la génératrice (3 mm Φ ou 1,5 mm Φ). On cherche l'écho de défaut (ED) maximum. On baisse les gains pour que l'écho atteigne 20 % HE et on note le gain trouvé <strong>G1</strong>.</p>
+            <p>On place ensuite le palpeur dans le vide (pas de couplant / pas de pièce) et on augmente les gains jusqu'à ce que l'« herbe » (bruit de fond) atteigne une moyenne de 20 % HE. On note le gain trouvé <strong>G2</strong>.</p>
+            <div class="formula-display" style="max-width:320px;"><span class="eq">G1&nbsp;−&nbsp;G2&nbsp;=&nbsp;Rapport S/B</span></div>
+            <p style="font-size:.9rem;">Exemple : G1 = 42, G2 = 107 → 42 − 107 = <strong>−65</strong></p>
+            <p style="color:var(--ink-muted); font-size:.9rem;">Ce réglage permet d'identifier la dégradation des performances de l'appareil US ; le résultat attendu du rapport S/B se réfère à la fiche technique de l'appareil.</p>
+          </li>
+          <li>
+            <h4>Durée d'impulsion</h4>
+            <p>On positionne la cale V1 de façon à capter un EF à 100 mm. On augmente la distance de l'échelle à 150 mm (on garde la célérité à 5930 m/s). On augmente l'amplitude du 1ᵉʳ EF jusqu'à une hauteur de 100 % HE.</p>
+            <p>On place la porte à l'intérieur de l'écho, de façon à ce qu'elle touche les 2 bords (il faut réduire et bien placer la porte, au seuil de 10 % HE) : l'appareil US indique alors la largeur de la porte, qui est la durée d'impulsion.</p>
+          </li>
+        </ol>
+
+        <div class="callout savoir">
+          <p style="margin-bottom:0;">Une fois le palpeur droit correctement positionné sur la cale, il est possible d'enchaîner le réglage en distance, la linéarité verticale et la durée d'impulsion <strong>sans déplacer ni le palpeur ni la cale</strong>.</p>
+        </div>
+
+        <h3><span class="num">·</span>Procédure B — palpeur d'angle à 45°</h3>
+        <ol class="steps-list fit-steps">
+          <li>
+            <h4>Préparer l'appareil US</h4>
+            <ul>
+              <li>Célérité = <strong>3230 m/s</strong></li>
+              <li>Angle = <strong>45°</strong></li>
+              <li>« Zéro » = 0</li>
+              <li>Mettre le bi/mono-scan en <strong>mono</strong> (single)</li>
+              <li>Échelle à <strong>200 mm</strong> en distance</li>
+            </ul>
+          </li>
+          <li>
+            <h4>Réglage en distance</h4>
+            <p>Cale V1 droite : on place le palpeur proche du repère et on le glisse jusqu'à ce que l'écho de fond soit au maximum (vers l'arrondi). À l'aide d'une porte, on déplace le « zéro » jusqu'à ce que l'EF soit à 100 mm en distance. On maintient la position du palpeur pour les étapes suivantes.</p>
+          </li>
+          <li>
+            <h4>Réglage de la linéarité verticale</h4>
+            <p>Même principe que pour le palpeur E/R : on amène l'EF à 80 % HE puis on vérifie chaque palier (+2 dB → 100 %, −6 dB → 40 %, −12 dB → 20 %, −18 dB → 10 %) — voir le tableau de tolérances de la procédure A.</p>
+          </li>
+          <li>
+            <h4>Point d'émergence (PE)</h4>
+            <p>Le point d'émergence est le point où le faisceau rentre réellement dans le milieu (l'acier). On place le réglet au bord du palpeur, jusqu'au bord du quart de rond de la cale.</p>
+            <div class="example-card" style="margin-top:.8em;">
+              <span class="example-tag">Exemple</span>
+              <p style="margin-top:0;">Le réglet indique 84 mm, donc :</p>
+              <div class="data-line">100 − 84 = 16 mm</div>
+              <div class="result">PE = 16 mm</div>
+            </div>
+          </li>
+          <li>
+            <h4>Durée d'impulsion</h4>
+            <p>Même principe que pour le palpeur E/R : on augmente l'EF à 100 % HE, on place la porte à 10 % HE dans l'écho de fond, on réduit la largeur — l'appareil US indique alors la durée d'impulsion.</p>
+          </li>
+          <li>
+            <h4>Correction d'angle</h4>
+            <p>Elle permet de vérifier l'usure du palpeur : il est censé faire 45°, mais avec le temps l'angle réel dérive. <strong>Tolérance : ± 2°</strong>.</p>
+            <p>On retourne la cale V1 pour viser la partie plexiglas. On cherche l'EF maximum et on mesure au réglet, du palpeur jusqu'au bord de la cale, la distance <strong>L</strong>.</p>
+            <div class="formula-display"><span class="eq">ArcTan&nbsp;=&nbsp;<span class="frac"><span class="num">(L + PE) − 35</span><span class="den">70</span></span></span></div>
+            <p style="font-size:.85rem;color:var(--ink-muted);margin-top:-.3em;">35 et 70 sont des cotes fixes du bloc V1 (elles ne changent pas d'un contrôle à l'autre).</p>
+            <div class="example-card">
+              <span class="example-tag">Exemple</span>
+              <p style="margin-top:0;">L = 91 mm, PE = 16 mm :</p>
+              <div class="data-line">ArcTan = [(91 + 16) − 35] ÷ 70 = 1,028</div>
+              <div class="result">ArcTan(1,028) = 45,79°  (dans la tolérance ± 2°)</div>
+            </div>
+          </li>
+        </ol>
+      </section>
+
+      <!-- ============ 06 AVG ============ -->
+      <section id="avg" class="chapter">
+        <div class="chapter-head">
+          <div>
+            <span class="chapter-eyebrow">Chapitre 06</span>
+            <h2>Méthode AVG <span style="font-weight:400;color:var(--ink-muted);font-family:var(--font-body);">(DGS)</span></h2>
+            <p class="dek">Distance / Gain / Taille — estimer la taille équivalente d'un défaut sans avoir besoin d'un étalon spécifique, à partir de courbes fournies par le fabricant du palpeur.</p>
+          </div>
+          <button class="reviewed-toggle" data-chapter="avg" data-on="false">
+            <span class="box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            Marquer comme révisé
+          </button>
+        </div>
+
+        <p>Le principe est de comparer l'amplitude de l'écho de défaut avec des courbes « AVG » obtenues pour une sonde donnée, une fréquence donnée et une distance donnée. Elle permet d'estimer la taille équivalente du défaut sans avoir besoin d'un étalon unique.</p>
+
+        <div class="formula-card">
+          <div class="formula-display"><span class="eq">D&nbsp;=&nbsp;<span class="frac"><span class="num">PS</span><span class="den">N</span></span></span></div>
+          <ul class="var-legend">
+            <li><b>PS</b> parcours sonore (profondeur de l'écho)</li>
+            <li><b>N</b> champ proche (voir <a href="#champs">chapitre 04</a>)</li>
+          </ul>
+        </div>
+
+        <h3><span class="num">·</span>Exemple 1 — construction complète</h3>
+        <div class="example-card">
+          <span class="example-tag">Exemple</span>
+          <p style="margin-top:0;"><strong>Données :</strong></p>
+          <div class="data-line">— Palpeur de 10 mm Φ et de 4 MHz</div>
+          <div class="data-line">— Écho de fond (EF) à 100 mm d'une tôle en acier</div>
+          <div class="data-line">— Écho de défaut (ED) à 59 mm</div>
+          <div class="data-line">— Augmentation du gain de 13 dB (pour rendre l'écho lisible)</div>
+
+          <p style="margin:1em 0 .3em;"><strong>1. Champ proche</strong></p>
+          <div class="data-line">N = D² × f / (4 × C) = 10² × 4 / (4 × 5920)</div>
+          <div class="result">N = 0,0168 m soit 16,8 mm</div>
+
+          <p style="margin:1em 0 .3em;"><strong>2. Distances réduites (D = PS / N)</strong></p>
+          <div class="data-line">D<sub>EF</sub> = 100 ÷ 16,8 = 5,95 ≈ 6</div>
+          <div class="data-line">D<sub>ED</sub> = 59 ÷ 16,8 = 3,51 ≈ 3,5</div>
+
+          <p style="margin:1em 0 .3em;"><strong>3. Lecture sur le diagramme AVG</strong></p>
+          <p style="margin:.2em 0;">Sur l'axe des abscisses, on repère D<sub>EF</sub> (6) et on trace la perpendiculaire jusqu'à la courbe « ∞ » (infinie), puis une parallèle à l'axe des abscisses jusqu'à l'axe des dB → on lit <strong>11 dB</strong>.</p>
+          <div class="data-line">11 dB + 13 dB (gain ajouté) = <strong>24 dB</strong></div>
+          <p style="margin:.4em 0 0;">On trace la parallèle à l'axe des abscisses depuis 24 dB jusqu'à la perpendiculaire de D<sub>ED</sub> (3,5). En longeant la courbe repère la plus proche de ce point, on lit la graduation du gain — ici, entre 0,6 et 0,8, soit <strong>0,7</strong>.</p>
+
+          <p style="margin:1em 0 .3em;"><strong>4. Diamètre équivalent</strong></p>
+          <div class="data-line">Φéquivalent = Gain G × Φpiézo = 0,7 × 10</div>
+          <div class="result">Φéquivalent = 7 mm</div>
+          <p style="margin:.8em 0 0; font-size:.9rem; color:var(--ink-muted);">Conclusion : le défaut détecté est équivalent à un réflecteur plan de 7 mm de diamètre.</p>
+        </div>
+
+        <div class="diagram">
+          <svg viewBox="0 0 480 320" role="img" aria-label="Diagramme AVG schématique illustrant la méthode de lecture">
+            <line x1="60" y1="20" x2="60" y2="280" stroke="var(--ink-2)" stroke-width="1.5"/>
+            <line x1="60" y1="280" x2="460" y2="280" stroke="var(--ink-2)" stroke-width="1.5"/>
+            <text x="18" y="24" font-size="10" fill="var(--ink-muted)" font-family="var(--font-mono)">dB</text>
+            <text x="460" y="314" text-anchor="end" font-size="10" fill="var(--ink-muted)" font-family="var(--font-mono)">D = PS / N →</text>
+            <g font-size="9" fill="var(--ink-muted)" font-family="var(--font-mono)" text-anchor="end">
+              <text x="52" y="61">10</text><text x="52" y="98">20</text><text x="52" y="135">30</text>
+              <text x="52" y="173">40</text><text x="52" y="210">50</text><text x="52" y="247">60</text>
+            </g>
+            <g font-size="9" fill="var(--ink-muted)" font-family="var(--font-mono)" text-anchor="middle">
+              <text x="80" y="296">1</text><text x="148" y="296">2</text><text x="187" y="296">3</text>
+              <text x="237" y="296">5</text><text x="305" y="296">10</text><text x="372" y="296">20</text><text x="440" y="296">40</text>
+            </g>
+            <path d="M95,272 C150,235 210,180 280,165 C340,155 390,158 430,168" fill="none" stroke="var(--line-strong)" stroke-width="1.3" opacity=".6"/>
+            <path d="M100,279 C160,258 220,215 290,205 C350,197 395,200 430,208" fill="none" stroke="var(--line-strong)" stroke-width="1.3" opacity=".6"/>
+            <path d="M92,258 C135,145 195,64 255,61 C320,60 380,70 430,88" fill="none" stroke="var(--ol)" stroke-width="2.4"/>
+            <text x="438" y="82" font-size="11" fill="var(--ol)" font-family="var(--font-mono)">∞</text>
+            <line x1="255" y1="280" x2="255" y2="61" stroke="var(--crit)" stroke-width="1.2" stroke-dasharray="4 3"/>
+            <line x1="255" y1="61" x2="60" y2="61" stroke="var(--crit)" stroke-width="1.2" stroke-dasharray="4 3"/>
+            <text x="260" y="291" font-size="9.5" fill="var(--crit)" font-family="var(--font-mono)">D_EF=6</text>
+            <line x1="60" y1="109" x2="202" y2="109" stroke="var(--ot)" stroke-width="1.2" stroke-dasharray="4 3"/>
+            <line x1="202" y1="109" x2="202" y2="280" stroke="var(--ot)" stroke-width="1.2" stroke-dasharray="4 3"/>
+            <text x="206" y="291" font-size="9.5" fill="var(--ot)" font-family="var(--font-mono)">D_ED=3,5</text>
+            <text x="63" y="106" font-size="9.5" fill="var(--ot)" font-family="var(--font-mono)">24 dB (11+13)</text>
+            <circle cx="202" cy="109" r="4.5" fill="none" stroke="var(--marge)" stroke-width="2.2"/>
+          </svg>
+          <span class="diagram-caption">Illustration schématique de la méthode de lecture (courbes non à l'échelle) — voir le calcul détaillé ci-dessus.</span>
+        </div>
+
+        <h3><span class="num">·</span>Exemple 2 — lecture directe sur courbes constructeur</h3>
+        <div class="example-card">
+          <span class="example-tag">Exemple simple</span>
+          <p style="margin-top:0;"><strong>Données :</strong> contrôle d'une plaque en acier (vitesse 5900 m/s), épaisseur 100 mm, sonde US de 4 MHz Φ10 mm.</p>
+          <p>Lors du contrôle, un écho apparaît à <strong>60 mm</strong> de profondeur avec une amplitude de <strong>−8 dB</strong> par rapport à l'écho de référence.</p>
+          <p>En consultant les courbes AVG de la sonde à 60 mm : un écho de −8 dB correspond à un réflecteur équivalent de <strong>2 mm Φ</strong>.</p>
+          <div class="result">Défaut détecté équivalent à un TFP de 2 mm</div>
+        </div>
+
+        <h3><span class="num">·</span>Le mode TCG</h3>
+        <div class="grid-2" style="align-items:center;">
+          <div class="callout savoir">
+            <div class="callout-title">Principe</div>
+            <p>Le mode TCG (<em>Time Corrected Gain</em>) est une correction du gain : les échos de chaque réflecteur de référence sont tous ramenés à la même hauteur d'écran.</p>
+            <p style="margin-bottom:0;">Pour dimensionner un faisceau acoustique, on utilise un réflecteur dont la surface réfléchissante est <strong>inférieure</strong> au faisceau.</p>
+          </div>
+          <div class="mini-diagram">
+            <svg viewBox="0 0 160 160" role="img" aria-label="Réflecteur plus petit que le faisceau">
+              <rect x="55" y="14" width="50" height="12" fill="var(--ink-2)"/>
+              <path d="M57,26 L38,138 M103,26 L122,138" stroke="var(--line-strong)" stroke-width="1.5" fill="none"/>
+              <rect x="63" y="130" width="34" height="10" fill="var(--crit)" opacity=".85"/>
+              <text x="80" y="9" text-anchor="middle" font-size="9.5" fill="var(--ink-muted)" font-family="var(--font-mono)">faisceau</text>
+              <text x="80" y="155" text-anchor="middle" font-size="9.5" fill="var(--crit)" font-family="var(--font-mono)">réflecteur</text>
+            </svg>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ 07 FORGE ============ -->
+      <section id="forge" class="chapter">
+        <div class="chapter-head">
+          <div>
+            <span class="chapter-eyebrow">Chapitre 07 · SPE &amp; tronc commun</span>
+            <h2>Contrôle des pièces forgées</h2>
+            <p class="dek">Ce qu'il faut savoir sur l'état de surface d'une pièce « brut de forge », et les trois familles de défauts typiques du forgeage.</p>
+          </div>
+          <button class="reviewed-toggle" data-chapter="forge" data-on="false">
+            <span class="box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            Marquer comme révisé
+          </button>
+        </div>
+
+        <div class="callout savoir">
+          <div class="callout-title">La Grosse Forge n° 3-72</div>
+          <p>Les pièces y sont réparties en :</p>
+          <ul style="margin-bottom:0;">
+            <li><strong>3 classes</strong>, selon l'utilisation de la pièce (sévérité des critères)</li>
+            <li><strong>5 familles</strong>, selon la forme générale de la pièce et le mode de forgeage</li>
+          </ul>
+        </div>
+
+        <h3><span class="num">·</span>Les produits forgés</h3>
+        <ul>
+          <li>Si un défaut d'une barre forgée est localisé dans l'axe, du côté de la tête du lingot : c'est dû à un <strong>mauvais chutage</strong>.</li>
+          <li>En général, les discontinuités tendent à être orientées dans la <strong>direction du forgeage</strong>.</li>
+          <li>Un produit « <strong>brut de forge</strong> » n'est <strong>pas</strong> le meilleur état de surface pour un contrôle US — c'est une pièce usinée ≤ 6,3 µm (micromètres) de rugosité.</li>
+        </ul>
+        <div class="callout important">
+          <div class="callout-title">Contrôle d'une pièce « brut de forge »</div>
+          <p>On utilise un traducteur à <strong>membrane souple</strong>, avec de l'<strong>huile</strong> comme couplant.</p>
+          <p style="margin-bottom:0;">Il est préférable de contrôler la pièce « brut de forge » après une opération de traitement de <strong>normalisation</strong> et d'<strong>usinage</strong>.</p>
+        </div>
+
+        <h3><span class="num">·</span>Les trois défauts typiques du forgeage</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Retassures</th><th>Tapures</th><th>Flocons</th></tr></thead>
+            <tbody>
+              <tr>
+                <td>Indication de forte amplitude + forte baisse de l'EF : soit une retassure, soit une décohésion due au forgeage.</td>
+                <td>Se rencontrent en <strong>surface</strong>, dans les zones où le refroidissement est le plus rapide.</td>
+                <td>Peuvent être <strong>éliminés par reforgeage</strong>.</td>
+              </tr>
+              <tr>
+                <td>Se recherchent sur les <strong>barres de tête</strong> (côté lingot).</td>
+                <td>Se rencontrent sur des aciers de construction.</td>
+                <td>Apparaissent après <strong>plusieurs jours</strong> de refroidissement.</td>
+              </tr>
+              <tr>
+                <td>Effet de retrait lors de la <strong>solidification</strong> du métal.</td>
+                <td>Peuvent apparaître après un traitement thermique ; fente provoquée par la <strong>trempe</strong>.</td>
+                <td>Se rencontrent sur des aciers de construction ; décohésion due à un <strong>excès d'hydrogène</strong> dans le métal.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ============ 08 FIT ============ -->
+      <section id="fit" class="chapter">
+        <div class="chapter-head">
+          <div>
+            <span class="chapter-eyebrow">Chapitre 08 · FIT</span>
+            <h2>Procédure FIT complète</h2>
+            <p class="dek">La Fiche d'Instruction de Travail-type, du bout en bout : objet, références normatives, qualification, matériel, préparation, calibration, mode opératoire, et consignation des résultats.</p>
+          </div>
+          <button class="reviewed-toggle" data-chapter="fit" data-on="false">
+            <span class="box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            Marquer comme révisé
+          </button>
+        </div>
+
+        <div class="callout astuce">
+          <p style="margin-bottom:0;">Les valeurs en <span class="placeholder">xxx</span> sont propres à chaque contrôle réel (référence pièce, dimensions, n° d'appareil…) — c'est la <strong>structure</strong> du document qu'il faut connaître par cœur.</p>
+        </div>
+
+        <ol class="steps-list fit-steps">
+          <li>
+            <h4>Objet</h4>
+            <p>Instruction de contrôle manuel à 100 % de la face supérieure de livraison.</p>
+            <p style="margin-bottom:0;">Réalisation d'un examen ultrasons à 100 % d'une plaque en acier ayant comme référence <span class="placeholder">xxx</span>, d'épaisseur <span class="placeholder">xxx</span>, de largeur <span class="placeholder">xxx</span>, de longueur <span class="placeholder">xxx</span>, selon la NF EN 10160.</p>
+          </li>
+
+          <li>
+            <h4>Références normatives</h4>
+            <div class="table-wrap">
+              <table>
+                <tbody>
+                  <tr><td class="mono" style="white-space:nowrap;"><b>NF EN ISO 9712</b></td><td>Certification du personnel</td></tr>
+                  <tr><td class="mono" style="white-space:nowrap;"><b>ISO 2400</b></td><td>Spécification relative au bloc étalon n° 1 (V1)</td></tr>
+                  <tr><td class="mono" style="white-space:nowrap;"><b>NF EN ISO 22232-3</b></td><td>Caractérisation et vérification de l'appareillage US — équipement complet</td></tr>
+                  <tr><td class="mono" style="white-space:nowrap;"><b>NF EN ISO 22232-2</b></td><td>Caractérisation et vérification de l'appareillage US — traducteur</td></tr>
+                  <tr><td class="mono" style="white-space:nowrap;"><b>NF EN ISO 22232-1</b></td><td>Caractérisation et vérification de l'appareillage US — appareils</td></tr>
+                  <tr><td class="mono" style="white-space:nowrap;"><b>NF EN 10160</b></td><td>Contrôle US des produits plats en acier, épaisseur ≥ 6 mm</td></tr>
+                  <tr><td class="mono" style="white-space:nowrap;"><b>NF EN ISO 10228-3</b></td><td>Critères d'acceptation des pièces forgées de classe 3</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </li>
+
+          <li>
+            <h4>Qualification</h4>
+            <ul style="margin-bottom:0;">
+              <li>Validation par un agent certifié <strong>COFREND CCPM-S niveau 2</strong>.</li>
+              <li>L'agent intervenant sur le contrôle US doit être certifié <strong>COFREND CCPM-S niveau 1</strong> minimum, selon la norme NF EN ISO 9712.</li>
+              <li>Acuité visuelle à jour.</li>
+            </ul>
+          </li>
+
+          <li>
+            <h4>Hygiène et sécurité</h4>
+            <ul style="margin-bottom:0;">
+              <li>Port des EPI.</li>
+              <li>Se plier aux normes de sécurité de l'entreprise et de la zone de contrôle.</li>
+            </ul>
+          </li>
+
+          <li>
+            <h4>Matériels, produits et équipements nécessaires</h4>
+            <ul style="margin-bottom:0;">
+              <li>Appareil US de référence <span class="placeholder">xxx</span>, de marque <span class="placeholder">xxx</span>, vérifié le <span class="placeholder">xxx</span> ou équivalent.</li>
+              <li>Traducteur US de type <span class="placeholder">xxx</span>, de fréquence <span class="placeholder">xxx</span>, de dimension <span class="placeholder">xxx</span>, de référence <span class="placeholder">xxx</span> ou équivalent.</li>
+              <li>Bloc étalon V1 n° <span class="placeholder">xxx</span>.</li>
+              <li>Couplant <span class="placeholder">xxx</span>.</li>
+              <li>Cale à gradins pour réaliser la CAD (Courbe Amplitude-Distance) + plexiglas.</li>
+              <li>Réglet, craie, chiffon…</li>
+            </ul>
+          </li>
+
+          <li>
+            <h4>Préparation avant contrôle</h4>
+            <ul style="margin-bottom:0;">
+              <li>Nettoyage de la poussière et/ou calamine adhérente.</li>
+              <li>Nettoyage de la pièce avec chiffon et dégraissant.</li>
+              <li>Contrôle d'aspect de la pièce.</li>
+              <li>Vérification des marquages peinture et feutre (identification de la pièce).</li>
+            </ul>
+          </li>
+
+          <li>
+            <h4>Calibration</h4>
+            <ul style="margin-bottom:0;">
+              <li>Réaliser les vérifications de la cale AFNOR type 1 → distance sur une échelle de 50 mm, linéarité verticale, durée d'impulsion, rapport signal/bruit.</li>
+              <li>Réaliser sur la cale à gradins la CAD → courbe infinie et courbe Φ5, sur 5 points.</li>
+            </ul>
+          </li>
+
+          <li>
+            <h4>Mode opératoire</h4>
+            <ul style="margin-bottom:0;">
+              <li>Vérifier le marquage, contrôle d'aspect et nettoyer la pièce pour enlever les résidus gênants.</li>
+              <li>Vérifier la validité du matériel.</li>
+              <li>Faire les vérifications sur une cale Afnor type 1 selon NF EN ISO 22232-3.</li>
+              <li>Étalonnage en distance en se réglant sur une échelle de 50 mm.</li>
+              <li>Sur cale à gradins, réaliser la CAD en 5 points pour courbe infinie et Φ5.</li>
+              <li>Réaliser le contrôle à 100 % en respectant un recouvrement de 10 % à chaque passe et une vitesse de sondage de 150 mm/s.</li>
+              <li>Noter les indications supérieures à Φ5 et les délimiter avec la méthode à −6 dB.</li>
+              <li>Noter d'une croix (ponctuel) les indications inférieures à Φ5.</li>
+              <li>Réaliser une cartographie des indications et le tableau des indications.</li>
+            </ul>
+          </li>
+
+          <li>
+            <h4>Seuil de notation</h4>
+            <p style="margin-bottom:0; color:var(--ink-muted);">→ voir le sujet (spécifique à chaque contrôle).</p>
+          </li>
+
+          <li>
+            <h4>Critères d'acceptation</h4>
+            <p style="margin-bottom:0; color:var(--ink-muted);">→ voir le sujet (spécifique à chaque contrôle).</p>
+          </li>
+
+          <li>
+            <h4>Consignation des résultats</h4>
+            <p>Réaliser une cartographie + un rapport de contrôle comportant :</p>
+            <ul style="margin-bottom:0;">
+              <li>N° de pièce, dimensions, date du sondage, nom du contrôleur, niveau de certification du contrôleur, type et n° de l'appareil US, type et n° du palpeur.</li>
+              <li>Norme du contrôle → NF EN 10160</li>
+              <li>Critère d'acceptation → voir le sujet</li>
+              <li>Sanction du produit → <strong>accepté</strong> ou <strong>rebut</strong></li>
+              <li>Repère axe et échelles</li>
+            </ul>
+          </li>
+
+          <li>
+            <h4>Opération après contrôle</h4>
+            <ul style="margin-bottom:0;">
+              <li>Les pièces présentant des indications seront vues par l'agent COFREND de niveau 2 pour décision.</li>
+              <li>Trier les pièces mauvaises et les pièces bonnes.</li>
+              <li>Nettoyage des pièces bonnes pour expédition.</li>
+            </ul>
+          </li>
+        </ol>
+      </section>
+
+      <!-- ============ FORMULAIRE ============ -->
+      <section id="formulaire" class="chapter">
+        <div class="chapter-head">
+          <div>
+            <span class="chapter-eyebrow">Aide-mémoire</span>
+            <h2>Formulaire récapitulatif</h2>
+            <p class="dek">Les 15 formules du cahier, réunies pour une relecture express avant l'examen. Chaque carte renvoie vers son chapitre pour le détail et les exemples.</p>
+          </div>
+          <button class="reviewed-toggle" data-chapter="formulaire" data-on="false">
+            <span class="box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            Marquer comme révisé
+          </button>
+        </div>
+
+        <div class="formulaire-grid">
+          <div class="f-item">
+            <div class="f-name">Snell-Descartes <a href="#snell">ch. 03 →</a></div>
+            <div class="formula-display"><span class="eq"><span class="frac"><span class="num">Sin θ1</span><span class="den">V1</span></span>&nbsp;=&nbsp;<span class="frac"><span class="num">Sin θ2</span><span class="den">V2</span></span></span></div>
+          </div>
+          <div class="f-item">
+            <div class="f-name">Longueur d'onde <a href="#grandeurs">ch. 02 →</a></div>
+            <div class="formula-display"><span class="eq">λ = <span class="frac"><span class="num">C</span><span class="den">f</span></span></span></div>
+          </div>
+          <div class="f-item">
+            <div class="f-name">Épaisseur piézo <a href="#grandeurs">ch. 02 →</a></div>
+            <div class="formula-display"><span class="eq">e = <span class="frac"><span class="num">λ</span><span class="den">2</span></span></span></div>
+          </div>
+          <div class="f-item">
+            <div class="f-name">Impédance acoustique <a href="#grandeurs">ch. 02 →</a></div>
+            <div class="formula-display"><span class="eq">Z = ρ × C</span></div>
+          </div>
+          <div class="f-item">
+            <div class="f-name">Coeff. de réflexion <a href="#grandeurs">ch. 02 →</a></div>
+            <div class="formula-display"><span class="eq">Er = <span class="frac"><span class="num">(Z1−Z2)²</span><span class="den">(Z1+Z2)²</span></span></span></div>
+          </div>
+          <div class="f-item">
+            <div class="f-name">Coeff. de transmission <a href="#grandeurs">ch. 02 →</a></div>
+            <div class="formula-display"><span class="eq">Et = <span class="frac"><span class="num">4Z1Z2</span><span class="den">(Z1+Z2)²</span></span></span></div>
+          </div>
+          <div class="f-item">
+            <div class="f-name">Champ proche <span class="nb">N<sub>0</sub></span> <a href="#champs">ch. 04 →</a></div>
+            <div class="formula-display"><span class="eq"><span class="nb">N<sub>0</sub></span> = <span class="frac"><span class="num">D²f</span><span class="den">4C</span></span></span></div>
+          </div>
+          <div class="f-item">
+            <div class="f-name">Divergence (champ lointain) <a href="#champs">ch. 04 →</a></div>
+            <div class="formula-display"><span class="eq">Sin Θ = K×<span class="frac"><span class="num">C</span><span class="den">Df</span></span></span></div>
+          </div>
+          <div class="f-item">
+            <div class="f-name">Zone focale <a href="#champs">ch. 04 →</a></div>
+            <div class="formula-display"><span class="eq">2N − <span class="frac"><span class="num">2</span><span class="den">3</span></span>N</span></div>
+          </div>
+          <div class="f-item">
+            <div class="f-name">Fréquence de résonance <a href="#champs">ch. 04 →</a></div>
+            <div class="formula-display"><span class="eq">f = <span class="frac"><span class="num">C</span><span class="den">2e</span></span></span></div>
+          </div>
+          <div class="f-item">
+            <div class="f-name">Point d'émergence <a href="#etalonnage">ch. 05 →</a></div>
+            <div class="formula-display"><span class="eq">PE = 100 − L</span></div>
+          </div>
+          <div class="f-item">
+            <div class="f-name">Correction d'angle <a href="#etalonnage">ch. 05 →</a></div>
+            <div class="formula-display" style="font-size:.95rem;"><span class="eq">ArcTan = <span class="frac"><span class="num">(L+PE)−35</span><span class="den">70</span></span></span></div>
+          </div>
+          <div class="f-item">
+            <div class="f-name">Rapport Signal/Bruit <a href="#etalonnage">ch. 05 →</a></div>
+            <div class="formula-display"><span class="eq">G1 − G2 = S/B</span></div>
+          </div>
+          <div class="f-item">
+            <div class="f-name">AVG — distance réduite <a href="#avg">ch. 06 →</a></div>
+            <div class="formula-display"><span class="eq">D = <span class="frac"><span class="num">PS</span><span class="den">N</span></span></span></div>
+          </div>
+          <div class="f-item">
+            <div class="f-name">AVG — diamètre équivalent <a href="#avg">ch. 06 →</a></div>
+            <div class="formula-display"><span class="eq">Φéq = G × Φpiézo</span></div>
+          </div>
+        </div>
+
+        <h3><span class="num">·</span>Vitesses de référence (m/s)</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Matériau</th><th class="num">OL</th><th class="num">OT</th></tr></thead>
+            <tbody>
+              <tr><td>Eau</td><td class="num">1483</td><td class="num">—</td></tr>
+              <tr><td>Air</td><td class="num">333</td><td class="num">—</td></tr>
+              <tr><td>Plexiglas</td><td class="num">2680</td><td class="num">1450</td></tr>
+              <tr><td>Acier</td><td class="num">5920</td><td class="num">3230</td></tr>
+              <tr><td>Aluminium</td><td class="num">6320</td><td class="num">3130</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ============ GLOSSAIRE ============ -->
+      <section id="glossaire" class="chapter">
+        <div class="chapter-head">
+          <div>
+            <span class="chapter-eyebrow">Annexe</span>
+            <h2>Glossaire des abréviations</h2>
+            <p class="dek">Tous les sigles utilisés dans ce cahier, en un seul endroit.</p>
+          </div>
+          <button class="reviewed-toggle" data-chapter="glossaire" data-on="false">
+            <span class="box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            Marquer comme révisé
+          </button>
+        </div>
+
+        <dl class="glossary">
+          <div class="g-row"><dt>US</dt><dd>Ultrasons.</dd></div>
+          <div class="g-row"><dt>OL</dt><dd>Onde Longitudinale — onde de compression.</dd></div>
+          <div class="g-row"><dt>OT</dt><dd>Onde Transversale — onde de cisaillement.</dd></div>
+          <div class="g-row"><dt>EF</dt><dd>Écho de Fond.</dd></div>
+          <div class="g-row"><dt>ED</dt><dd>Écho de Défaut.</dd></div>
+          <div class="g-row"><dt>HE</dt><dd>Hauteur d'Écran.</dd></div>
+          <div class="g-row"><dt>PE</dt><dd>Point d'Émergence — le point où le faisceau entre réellement dans la pièce.</dd></div>
+          <div class="g-row"><dt>PS</dt><dd>Parcours Sonore.</dd></div>
+          <div class="g-row"><dt>E/R</dt><dd>Palpeur Émission / Réception (mono-élément, contraire d'un palpeur émetteur-récepteur séparés).</dd></div>
+          <div class="g-row"><dt>CAD</dt><dd>Courbe Amplitude-Distance.</dd></div>
+          <div class="g-row"><dt>AVG</dt><dd>Méthode Distance-Gain-Taille (de l'allemand <em>Abstand-Verstärkung-Größe</em>) — équivalente à la méthode DGS. Voir chapitre 06.</dd></div>
+          <div class="g-row"><dt>TCG</dt><dd><em>Time Corrected Gain</em> : correction du gain en fonction du temps/de la distance, pour ramener tous les échos de référence à la même hauteur d'écran.</dd></div>
+          <div class="g-row"><dt>TFP</dt><dd>Trou à Fond Plat — réflecteur de référence étalon.</dd></div>
+          <div class="g-row"><dt>S/B</dt><dd>Rapport Signal/Bruit.</dd></div>
+          <div class="g-row"><dt>dB</dt><dd>Décibel — unité logarithmique utilisée pour exprimer les niveaux de gain ou d'amplitude.</dd></div>
+          <div class="g-row"><dt>FIT</dt><dd>Fiche d'Instruction de Travail. Voir chapitre 08.</dd></div>
+          <div class="g-row"><dt>SPE</dt><dd>Spécification particulière propre au secteur des pièces forgées, évoquée dans le tronc commun (chapitre 07).</dd></div>
+          <div class="g-row"><dt>COFREND</dt><dd>Confédération Française pour les Essais Non Destructifs — organisme français, accrédité COFRAC selon la norme NF EN ISO/CEI 17024, qui certifie les agents CND selon NF EN ISO 9712.</dd></div>
+          <div class="g-row"><dt>CCPM-S</dt><dd>Schéma de certification sectoriel COFREND « Produits Métalliques » (aciers, tubes, fonderie) cité dans la procédure FIT.</dd></div>
+        </dl>
+      </section>
+
+      <footer class="site-footer">
+        <span>Cahier US — mise en forme de notes personnelles pour révision COFREND UT2.</span>
+        <span id="lastReviewInfo"></span>
+      </footer>
+
+    </div>
+  </main>
+</div>
+
+<button class="back-to-top" id="backToTop" aria-label="Retour en haut">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 19V5M5 12l7-7 7 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</button>
+
+<script>
+(function(){
+  "use strict";
+  var root = document.documentElement;
+  var THEME_KEY = 'ut-cahier-theme';
+  var PROGRESS_KEY = 'ut-cahier-progress';
+
+  /* ---------- THEME ---------- */
+  function applyTheme(t){
+    if(t === 'dark'){ document.body.setAttribute('data-theme','dark'); }
+    else { document.body.removeAttribute('data-theme'); }
+  }
+  var savedTheme = localStorage.getItem(THEME_KEY);
+  if(!savedTheme){ savedTheme = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'; }
+  applyTheme(savedTheme);
+
+  document.getElementById('themeToggle').addEventListener('click', function(){
+    var current = document.body.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+    var next = current === 'dark' ? 'light' : 'dark';
+    applyTheme(next);
+    try{ localStorage.setItem(THEME_KEY, next); }catch(e){}
+  });
+
+  /* ---------- MOBILE NAV ---------- */
+  var sidebar = document.getElementById('sidebar');
+  var scrim = document.getElementById('navScrim');
+  var navToggle = document.getElementById('navToggle');
+  function openNav(){ sidebar.classList.add('open'); scrim.classList.add('show'); navToggle.setAttribute('aria-expanded','true'); }
+  function closeNav(){ sidebar.classList.remove('open'); scrim.classList.remove('show'); navToggle.setAttribute('aria-expanded','false'); }
+  navToggle.addEventListener('click', function(){ sidebar.classList.contains('open') ? closeNav() : openNav(); });
+  scrim.addEventListener('click', closeNav);
+  document.querySelectorAll('.nav-list a').forEach(function(a){
+    a.addEventListener('click', function(){ closeNav(); });
+  });
+
+  /* ---------- ANCHOR NAV: instant, deliberate (see CSS note above) ---------- */
+
+  /* ---------- SCROLLSPY ---------- */
+  var navLinks = Array.prototype.slice.call(document.querySelectorAll('.nav-list a[data-target]'));
+  var sections = navLinks.map(function(a){ return document.getElementById(a.getAttribute('data-target')); }).filter(Boolean);
+  if('IntersectionObserver' in window){
+    var spy = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        var link = navLinks.filter(function(a){ return a.getAttribute('data-target') === entry.target.id; })[0];
+        if(!link) return;
+        if(entry.isIntersecting){
+          navLinks.forEach(function(a){ a.classList.remove('active'); });
+          link.classList.add('active');
+        }
+      });
+    }, {rootMargin:'-15% 0px -70% 0px', threshold:0});
+    sections.forEach(function(s){ spy.observe(s); });
+  }
+
+  /* ---------- (reveal-on-scroll intentionally removed — see CSS note) ---------- */
+
+  /* ---------- PROGRESS / REVIEWED TOGGLES ---------- */
+  var progressPercent = document.getElementById('progressPercent');
+  var progressFill = document.getElementById('progressFill');
+  var toggles = Array.prototype.slice.call(document.querySelectorAll('.reviewed-toggle'));
+  function loadProgress(){
+    try{ return JSON.parse(localStorage.getItem(PROGRESS_KEY) || '{}'); }catch(e){ return {}; }
+  }
+  function saveProgress(obj){ try{ localStorage.setItem(PROGRESS_KEY, JSON.stringify(obj)); }catch(e){} }
+  function refreshProgress(){
+    var state = loadProgress();
+    var total = toggles.length, done = 0;
+    toggles.forEach(function(btn){
+      var id = btn.getAttribute('data-chapter');
+      var on = !!state[id];
+      btn.setAttribute('data-on', on ? 'true' : 'false');
+      var navLink = document.querySelector('.nav-list a[data-target="'+id+'"]');
+      if(navLink){ navLink.classList.toggle('reviewed', on); }
+      if(on) done++;
+    });
+    var pct = total ? Math.round((done/total)*100) : 0;
+    progressPercent.textContent = pct + '%';
+    progressFill.style.width = pct + '%';
+  }
+  toggles.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var id = btn.getAttribute('data-chapter');
+      var state = loadProgress();
+      state[id] = !state[id];
+      saveProgress(state);
+      refreshProgress();
+    });
+  });
+  refreshProgress();
+
+  /* ---------- SEARCH / FILTER ---------- */
+  var searchInput = document.getElementById('searchInput');
+  var searchHint = document.getElementById('searchHint');
+  var searchable = Array.prototype.slice.call(document.querySelectorAll('.card, .formula-card, .example-card, .callout, .f-item, .g-row, .mini-diagram, .diagram'));
+  function normalize(str){
+    return (str||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+  }
+  searchable.forEach(function(el){ el.dataset.text = normalize(el.textContent); });
+  var searchTimer;
+  searchInput.addEventListener('input', function(){
+    clearTimeout(searchTimer);
+    searchTimer = setTimeout(runSearch, 60);
+  });
+  function runSearch(){
+    var q = normalize(searchInput.value.trim());
+    if(!q){
+      searchable.forEach(function(el){ el.classList.remove('search-hide'); });
+      document.querySelectorAll('.chapter').forEach(function(c){ c.classList.remove('search-hide'); });
+      searchHint.textContent = '\u00A0';
+      return;
+    }
+    var matches = 0;
+    searchable.forEach(function(el){
+      var hit = el.dataset.text.indexOf(q) !== -1;
+      el.classList.toggle('search-hide', !hit);
+      if(hit) matches++;
+    });
+    document.querySelectorAll('.chapter').forEach(function(chap){
+      var anyVisible = chap.querySelectorAll('.card:not(.search-hide), .formula-card:not(.search-hide), .example-card:not(.search-hide), .callout:not(.search-hide), .f-item:not(.search-hide), .g-row:not(.search-hide), .mini-diagram:not(.search-hide), .diagram:not(.search-hide)').length > 0;
+      chap.classList.toggle('search-hide', !anyVisible);
+    });
+    searchHint.textContent = matches + ' résultat' + (matches>1?'s':'') + ' — Échap pour effacer';
+  }
+  searchInput.addEventListener('keydown', function(e){
+    if(e.key === 'Escape'){ searchInput.value=''; runSearch(); searchInput.blur(); }
+  });
+
+  /* ---------- BACK TO TOP ---------- */
+  var backToTop = document.getElementById('backToTop');
+  window.addEventListener('scroll', function(){
+    backToTop.classList.toggle('show', window.scrollY > 500);
+  }, {passive:true});
+  backToTop.addEventListener('click', function(){ window.scrollTo({top:0, behavior:'smooth'}); });
+
+})();
+</script>
+</body>
+</html>
