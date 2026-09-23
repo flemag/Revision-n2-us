@@ -156,19 +156,20 @@ export function SkipCalc() {
   const full = 2 * half;
   const pHalf = t / Math.cos(rad(th));
   const dRaw = p * Math.cos(rad(th));
-  const s = p * Math.sin(rad(th));
-  let d = dRaw;
-  let zone = "direct";
-  if (dRaw > t) {
-    const folded = dRaw % (2 * t);
-    if (folded > t) {
-      d = 2 * t - folded;
-      zone = "après ½ skip (remontée)";
-    } else {
-      d = folded;
-      zone = "rebond pair";
-    }
-  }
+  // After each reflection, the displayed surface position must also be
+  // folded into the current V path; using the raw projection would keep
+  // increasing past a skip and give a misleading surface location.
+  const legs = Math.floor(dRaw / t);
+  const remainder = dRaw % (2 * t);
+  const d = remainder <= t ? remainder : 2 * t - remainder;
+  const halfSkip = t * Math.tan(rad(th));
+  const surfaceCycles = Math.floor(dRaw / t);
+  const localDepth = dRaw % t;
+  const s = surfaceCycles === 0
+    ? sRaw
+    : (surfaceCycles * halfSkip + (localDepth / Math.cos(rad(th))));
+
+  const zone = legs === 0 ? "direct" : (remainder <= t ? "après rebond" : "après ½ skip (remontée)");
   return (
     <Panel title="Skip, profondeur, distance projetée">
       <div className="grid gap-3 sm:grid-cols-3">
@@ -180,7 +181,7 @@ export function SkipCalc() {
         <div>½ skip = {formatNum(half, 1)} mm · skip = {formatNum(full, 1)} mm</div>
         <div>P_½ = {formatNum(pHalf, 1)} mm</div>
         <div>
-          Pour P = {formatNum(p, 1)} mm → s = {formatNum(s, 1)} mm, d ≈ {formatNum(d, 1)} mm{" "}
+          Pour P = {formatNum(p, 1)} mm → projection cumulée = {formatNum(s, 1)} mm, d ≈ {formatNum(d, 1)} mm{" "}
           <span className="text-ink-muted">({zone})</span>
         </div>
       </div>
