@@ -4,13 +4,15 @@ export function ForgeChapter() {
   return (
     <>
       <Callout kind="savoir" title="La Grosse Forge n° 3-72">
-        <p>Les pièces y sont réparties en :</p>
+        <p>Ne pas confondre les deux classifications :</p>
         <ul className="mb-0 pl-5">
           <li>
-            <strong>3 classes</strong>, selon l'utilisation (sévérité des critères) ;
+            <strong>4 types de pièces</strong> dans l'EN 10228-3, selon la forme et le mode de
+            production (types 1 à 3 essentiellement simples, type 4 complexe) ;
           </li>
           <li>
-            <strong>5 familles</strong>, selon la forme générale et le mode de forgeage.
+            les <strong>classes de qualité / d'enregistrement</strong> et leurs critères sont
+            définis séparément par la norme et le niveau de contrôle retenu.
           </li>
         </ul>
       </Callout>
@@ -58,7 +60,7 @@ export function ForgeChapter() {
           [
             "Forte amplitude + chute nette de l'EF. Retassure ou décohésion de forgeage.",
             "En surface, zones de refroidissement rapide.",
-            "Peuvent être éliminés par reforgeage.",
+            "Discontinuités internes liées notamment à l'hydrogène ; leur prévention repose sur la maîtrise de l'élaboration et des traitements.",
           ],
           [
             "Se recherchent sur les barres de tête (côté lingot).",
