@@ -81,10 +81,11 @@ export function GrandeursChapter() {
       <ImpedanceCases />
       <Callout kind="savoir" title="Inversion de phase">
         <p className="mb-0">
-          Quand l'onde se réfléchit sur un milieu <em>plus impédant</em> (Z2 {'>'} Z1), le
-          coefficient d'amplitude est négatif : le signal se retourne (déphasage de π). C'est le
-          cas eau → acier. Sur un milieu moins impédant (acier → air), pas d'inversion, et
-          réflexion quasi totale.
+          Pour le coefficient de réflexion en pression utilisé ci-dessous, r = (Z2 − Z1) / (Z2 + Z1).
+          Il est <strong>positif</strong> sur un milieu plus impédant (Z2 {'>'} Z1) : pas d'inversion
+          de phase. À l'inverse, sur un milieu moins impédant (Z2 {'<'} Z1), r est négatif : la
+          pression réfléchie est inversée (déphasage de π). Ainsi, eau → acier n'inverse pas la
+          phase, tandis que acier → air l'inverse.
         </p>
       </Callout>
 
