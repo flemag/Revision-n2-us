@@ -73,21 +73,22 @@ export function ChampsChapter() {
       </p>
       <BeamZones />
 
-      <H3 id="focale">Zone focale</H3>
+      <H3 id="focale">Zone de sensibilité autour du champ proche</H3>
       <p>
         Pour un palpeur droit non focalisé, le maximum d'intensité est vers N₀. La zone où la
         pression reste au-dessus de −6 dB du max — la plus sensible à la détection — s'étend
         approximativement de <strong>(2/3) N₀ à 2 N₀</strong>. Sa longueur vaut donc :
       </p>
       <Formula
-        title="Longueur de zone focale"
+        title="Approximation pédagogique de la zone autour de N₀"
         legend={[{ k: "N", v: "champ proche N₀" }]}
       >
-        L_focale = 2N − <Frac num="2" den="3" /> N = <Frac num="4" den="3" /> N
+        L ≈ <Frac num="4" den="3" /> N
       </Formula>
       <p className="text-sm text-ink-muted">
-        Ne pas lire « 2N − 2/3 N » comme une position : c'est une <em>longueur</em>. Le diamètre
-        de la tache (à −6 dB) est de l'ordre du quart du diamètre de l'élément actif.
+        Cette relation est une approximation de formation, pas une définition normative d'une « zone focale ».
+        Pour un traducteur réellement focalisé, la focale et la zone focale doivent être décrites avec
+        les caractéristiques du traducteur et la méthode de contrôle.
       </p>
 
       <H3 id="loin">Champ lointain — zone de Fraunhofer</H3>
