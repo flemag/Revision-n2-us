@@ -226,7 +226,7 @@ export const QUESTIONS: Question[] = [
       "Un bloc étalon ISO 2400",
     ],
     answer: 0,
-    why: "Time Corrected Gain = DAC électronique.",
+    why: "Le TCG augmente le gain en fonction du temps pour compenser la perte d'amplitude avec la distance. Il poursuit le même objectif que la DAC, mais sous forme de correction électronique.",
   },
   {
     id: "q21",
