@@ -34,25 +34,25 @@ export function FitChapter() {
               headers={["Référence", "Rôle"]}
               rows={[
                 ["NF EN ISO 9712", "Certification du personnel"],
-                ["ISO 2400", "Bloc étalon n° 1 (V1)"],
-                ["ISO 7963", "Bloc étalon n° 2 (V2)"],
-                ["NF EN ISO 22232-1", "Caractérisation — appareils"],
-                ["NF EN ISO 22232-2", "Caractérisation — traducteurs"],
-                ["NF EN ISO 22232-3", "Caractérisation — équipement complet"],
-                ["NF EN 10160", "US des plats acier, e ≥ 6 mm"],
-                ["NF EN 10228-3", "US des pièces forgées ferritiques / martensitiques"],
+                ["ISO 2400:2025", "Bloc étalon n° 1 (V1)"],
+                ["ISO 7963:2022", "Bloc étalon n° 2 (V2)"],
+                ["NF EN ISO 22232-1:2020", "Caractérisation — appareils"],
+                ["NF EN ISO 22232-2:2020", "Caractérisation — traducteurs"],
+                ["NF EN ISO 22232-3:2020", "Caractérisation — équipement complet"],
+                ["NF EN 10160:1999", "US des produits plats acier, 6 ≤ e ≤ 200 mm (édition publiée actuelle)"],
+                ["NF EN 10228-3:2016", "US des pièces forgées ferritiques / martensitiques"],
               ]}
             />
           </Step>
           <Step title="Qualification">
             <ul className="mb-0">
               <li>
-                Validation par un agent certifié <strong>COFREND CCPM-S niveau 2</strong>.
+                Validation selon l'organisation de certification et la procédure applicable ; le niveau de certification requis doit être celui prévu par le sujet ou le système qualité.
               </li>
               <li>
                 L'opérateur est au minimum <strong>niveau 1</strong> selon NF EN ISO 9712.
               </li>
-              <li>Acuité visuelle à jour (Jaeger, Ishihara… selon le centre).</li>
+              <li>Acuité visuelle conforme aux exigences applicables de certification et de l'employeur.</li>
             </ul>
           </Step>
           <Step title="Hygiène et sécurité">
@@ -88,8 +88,9 @@ export function FitChapter() {
           <Step title="Calibration">
             <ul className="mb-0">
               <li>
-                Cale AFNOR type 1 / V1 : distance (échelle 50 mm), linéarité verticale, durée
-                d'impulsion, rapport S/B — ISO 22232-3.
+                Bloc étalon n°1 / V1 : réglages et vérifications selon la procédure applicable et les
+                caractéristiques de l'équipement — notamment distance, linéarité et paramètres requis
+                par l'ISO 22232-3:2020.
               </li>
               <li>Cale à gradins : CAD, courbe infinie et courbe Ø5, sur 5 points.</li>
             </ul>
@@ -100,12 +101,12 @@ export function FitChapter() {
               <li>Étalonnage distance, échelle 50 mm.</li>
               <li>CAD 5 points, infinie + Ø5.</li>
               <li>
-                Contrôle 100 %, recouvrement <strong>10 %</strong>, vitesse ≤{" "}
-                <strong>150 mm/s</strong>.
+                Contrôle 100 % ; recouvrement et vitesse de balayage définis explicitement par la procédure,
+                le produit et le sujet.
               </li>
               <li>
-                Indications ≥ Ø5 : délimiter en <strong>−6 dB</strong>. Indications {'<'} Ø5 :
-                croix (ponctuel).
+                Indications et modalités de délimitation selon les seuils, critères et règles de dimensionnement
+                fixés par le sujet / code applicable.
               </li>
               <li>Cartographie + tableau des indications.</li>
             </ul>
@@ -123,7 +124,7 @@ export function FitChapter() {
                 N° de pièce, cotes, date, nom et niveau du contrôleur, type et n° appareil /
                 palpeur.
               </li>
-              <li>Norme → NF EN 10160 (dans cet exemple plaque).</li>
+              <li>Norme → NF EN 10160:1999 (dans cet exemple plaque ; vérifier l'édition demandée et toute révision applicable).</li>
               <li>Critère d'acceptation → sujet.</li>
               <li>
                 Sanction : <strong>accepté</strong> ou <strong>rebut</strong>.
