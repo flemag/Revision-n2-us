@@ -244,15 +244,15 @@ export const QUESTIONS: Question[] = [
   {
     id: "q22",
     chapter: "forge",
-    q: "Les flocons dans un forgeage :",
+    q: "Les flocons dans un forgeage sont :",
     choices: [
-      "Sont exclusivement des défauts de surface",
-      "Viennent d'un excès d'hydrogène et peuvent disparaître au reforgeage",
-      "Sont des retassures de tête de lingot",
-      "N'apparaissent que pendant la trempe",
+      "Exclusivement des défauts de surface",
+      "Des discontinuités internes liées à l'hydrogène, pouvant apparaître après un délai",
+      "Des retassures de tête de lingot",
+      "Des défauts qui apparaissent uniquement pendant la trempe",
     ],
     answer: 1,
-    why: "H2, délai de plusieurs jours, décohésion interne. Tapures = surface / trempe. Retassures = solidification.",
+    why: "Les flocons sont des discontinuités internes associées à l'hydrogène et peuvent être détectés après un délai. Ils ne doivent pas être présentés comme des défauts éliminables simplement par reforgeage."
   },
   {
     id: "q23",
@@ -291,15 +291,15 @@ export const QUESTIONS: Question[] = [
   {
     id: "q26",
     chapter: "fit",
-    q: "Recouvrement et vitesse de sondage typiques d'un 100 % plaques :",
+    q: "Dans une FIT de contrôle à 100 % d'une plaque, le recouvrement et la vitesse de balayage sont :",
     choices: [
-      "0 % et 500 mm/s",
-      "10 % et 150 mm/s",
-      "50 % et 10 mm/s",
-      "100 % et 1 m/s",
+      "Toujours 0 % et 500 mm/s",
+      "Des paramètres à fixer explicitement dans la procédure, selon la norme, le produit et le sujet",
+      "Toujours 50 % et 10 mm/s",
+      "Toujours 100 % et 1 m/s",
     ],
     answer: 1,
-    why: "10 % de recouvrement, 150 mm/s : valeurs de la FIT-type EN 10160 du cahier.",
+    why: "Une FIT doit définir les conditions de balayage applicables. Une valeur rencontrée dans un exemple de formation ne doit pas être mémorisée comme une limite universelle."
   },
   {
     id: "q27",
