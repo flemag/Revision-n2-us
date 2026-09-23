@@ -18,9 +18,10 @@ export function EtalonnageChapter() {
     <>
       <p>
         Cadre normatif : caractérisation de l'équipement complet selon{" "}
-        <strong>NF EN ISO 22232-3</strong> (qui a remplacé l'EN 12668-3). Le bloc étalon n° 1
-        est spécifié par <strong>ISO 2400</strong> ; le n° 2, plus petit, par{" "}
-        <strong>ISO 7963</strong>.
+        <strong>NF EN ISO 22232-3:2020</strong> (qui a remplacé l'EN 12668-3). Le bloc étalon n° 1
+        est spécifié par <strong>ISO 2400</strong> (édition actuellement publiée : 2025) ; le n° 2,
+        plus petit, par <strong>ISO 7963:2022</strong>. Vérifie toujours l'édition exigée par le
+        sujet, le client ou la procédure applicable.
       </p>
 
       <H3 id="v1">La cale V1 — bloc n° 1</H3>
