@@ -26,8 +26,9 @@ export function EtalonnageChapter() {
 
       <H3 id="v1">La cale V1 — bloc n° 1</H3>
       <p>
-        Acier type S355, célérités contrôlées. Elle sert à régler la base de temps, le zéro, le
-        point d'émergence, l'angle, la linéarité, la durée d'impulsion, le rapport signal/bruit.
+        Bloc étalon n°1 conforme à l'ISO 2400:2025. Il sert, selon la procédure applicable, au réglage
+        et à la vérification de paramètres tels que la base de temps, le zéro, le point d'émergence,
+        l'angle et les performances de l'équipement.
       </p>
       <V1Block />
       <Grid3>
@@ -61,8 +62,9 @@ export function EtalonnageChapter() {
             n'est pas de même nature (ou de même état de surface) que le bloc de référence.
           </li>
           <li>
-            La cale V2 (ISO 7963) : R = 25 ou 50 mm, plus légère, suffisante en chantier pour PE
-            et angle.
+            La cale n°2 est spécifiée par l'ISO 7963:2022. Ses caractéristiques et son emploi doivent être
+            repris selon la géométrie du bloc et la procédure applicable ; ne pas mémoriser ici une
+            combinaison de rayons comme règle universelle.
           </li>
         </ul>
       </Callout>
@@ -85,7 +87,7 @@ export function EtalonnageChapter() {
           </Step>
           <Step title="Linéarité verticale">
             <p>
-              1er EF à 80 % HE, puis on joue le gain étalonné. Tolérances typiques (ISO 22232-3) :
+              1er EF à 80 % HE, puis on joue le gain étalonné. Exemple de valeurs de formation — à ne pas transformer en tolérances universelles :
             </p>
             <DataTable
               headers={["± gain", "Cible", "Limites"]}
@@ -166,7 +168,7 @@ export function EtalonnageChapter() {
           </Step>
           <Step title="Correction d'angle">
             <p>
-              Vérifie l'usure du sabot. Tolérance usuelle : <strong>± 2°</strong>. On retourne la
+              Vérifie l'usure du sabot. La tolérance d'angle doit être celle de la procédure / norme applicable (l'exemple pédagogique ci-dessous utilise <strong>± 2°</strong>). On retourne la
               V1, on vise le plexi / le trou, EF max, on mesure L du palpeur au bord de cale.
             </p>
             <Formula title="Forme utilisée en formation (cotes V1)">

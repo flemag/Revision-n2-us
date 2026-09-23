@@ -89,8 +89,9 @@ export function SnellChapter() {
         <DataLine>θ_c2 = arcsin(1480 / 3200) = arcsin(0,463)</DataLine>
         <Result>θ_c2 ≈ 27,5°</Result>
         <p className="mt-3 mb-0 text-sm text-ink-muted">
-          Au-delà du 2e critique, plus d'OT volumique non plus : on génère essentiellement de la
-          Rayleigh.
+          Au-delà du 2e critique, l'OT volumique ne se réfracte plus. Des ondes de surface et d'autres
+          composantes peuvent toutefois être générées selon l'interface et la configuration ;
+          « uniquement Rayleigh » serait trop catégorique.
         </p>
       </Example>
       <DataTable
