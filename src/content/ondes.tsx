@@ -75,8 +75,10 @@ export function OndesChapter() {
 
       <H3 id="surface">Ondes de surface</H3>
       <p>
-        Pour une fréquence et un matériau donnés, ce sont les ondes de plus <strong>petite
-        longueur d'onde</strong> — un classique de QCM.
+        Parmi les modes classiques OL, OT et Rayleigh, les ondes de surface de Rayleigh ont la <strong>plus
+        petite longueur d'onde</strong> à fréquence et matériau identiques, car leur célérité est
+        inférieure à celle de l'OT. Pour les modes guidés de Lamb, la célérité et donc la longueur
+        d'onde dépendent notamment du mode et du produit fréquence × épaisseur.
       </p>
       <Grid2>
         <Callout kind="savoir" title="Rayleigh">

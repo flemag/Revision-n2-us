@@ -11,15 +11,15 @@ export const QUESTIONS: Question[] = [
   {
     id: "q1",
     chapter: "ondes",
-    q: "Pour une fréquence et un matériau donnés, quelle onde a la plus petite longueur d'onde ?",
+    q: "Parmi les ondes volumiques OL, OT et l'onde de surface de Rayleigh, laquelle a la plus petite longueur d'onde à fréquence et matériau identiques ?",
     choices: [
-      "L'onde longitudinale",
-      "L'onde de compression",
-      "L'onde de cisaillement",
-      "L'onde de surface",
+      "L'onde longitudinale (OL)",
+      "L'onde transversale (OT)",
+      "L'onde de surface de Rayleigh",
+      "Elles ont toutes la même longueur d'onde",
     ],
-    answer: 3,
-    why: "Rayleigh / surface : vitesse la plus faible → λ = C/f minimale. Compression et longitudinale, c'est la même chose (OL).",
+    answer: 2,
+    why: "Pour un matériau donné, la vitesse de Rayleigh est inférieure à celle de l'OT, elle-même inférieure à celle de l'OL : λ = C/f est donc la plus courte pour Rayleigh. OL et onde de compression désignent le même mode."
   },
   {
     id: "q2",
@@ -317,14 +317,14 @@ export const QUESTIONS: Question[] = [
   {
     id: "q28",
     chapter: "ondes",
-    q: "Les ondes de Lamb sont surtout utilisées pour :",
+    q: "Les ondes de Lamb sont :",
     choices: [
-      "Les pièces massives de forge",
-      "Les tôles minces (ordre ≤ 3 mm)",
-      "Les contrôles en immersion profonde",
-      "Remplacer les OT au-delà du 2e critique",
+      "Des ondes volumiques réservées aux pièces massives",
+      "Des modes guidés dans des plaques ou parois, dont le comportement dépend notamment de f × épaisseur",
+      "Des OT qui apparaissent automatiquement après le 2e angle critique",
+      "Des ondes de surface de Rayleigh, avec une autre appellation",
     ],
     answer: 1,
-    why: "Modes guidés de plaque mince. Sans courbe, on prend l'angle d'amplitude max.",
+    why: "Les modes de Lamb sont guidés par une plaque/paroi et peuvent être symétriques ou antisymétriques (par exemple S0/A0). Il n'existe pas de seuil universel de 3 mm : le produit fréquence × épaisseur et le mode considéré comptent."
   },
 ];

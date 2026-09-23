@@ -45,7 +45,16 @@ function QuizPage() {
   }
 
   function finishEarly() {
-    setScore(score, total);
+    if (picked == null) {
+      setScore(score, total);
+      setDone(true);
+      return;
+    }
+    // Include the answer currently displayed, even if React has not
+    // committed the score update from choose() yet.
+    const finalScore = score + (picked === q.answer ? 1 : 0);
+    setLocal(finalScore);
+    setScore(finalScore, total);
     setDone(true);
   }
 
