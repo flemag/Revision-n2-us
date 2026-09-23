@@ -38,8 +38,10 @@ export function ForgeChapter() {
           parallèle au faisceau : il faut penser l'incidence.
         </li>
         <li>
-          Un état « <strong>brut de forge</strong> » n'est <em>pas</em> le meilleur pour l'US. La
-          rugosité visée pour un contrôle propre est typiquement ≤ 6,3 µm.
+          Un état « <strong>brut de forge</strong> » peut dégrader le couplage et augmenter le
+          bruit. La rugosité / préparation de surface doit respecter les exigences de la norme,
+          du plan et de la procédure applicables ; aucune valeur unique ne doit être mémorisée
+          comme limite universelle.
         </li>
       </ul>
       <Callout kind="important" title="Contrôle d'une pièce brut de forge">

@@ -80,8 +80,8 @@ export function SnellChapter() {
         <DataLine>θ_eau = arcsin(1480 / 5950) = arcsin(0,249)</DataLine>
         <Result>θ_c1 ≈ 14,4°</Result>
         <p className="mt-3 mb-0 text-sm text-ink-muted">
-          Au-delà, plus d'OL dans l'acier : il ne reste que l'OT. C'est le principe du sabot
-          d'angle « tout OT ».
+          Entre les deux angles critiques, il n'y a plus d'OL volumique réfractée ; l'OT réfractée
+          domine dans l'acier. Des composantes de surface peuvent aussi exister selon l'interface et la configuration.
         </p>
       </Example>
       <Example tag="2e angle critique · OT à 90°">
@@ -97,8 +97,8 @@ export function SnellChapter() {
       <DataTable
         headers={["Interface", "1er critique (OL=90°)", "2e critique (OT=90°)"]}
         rows={[
-          ["Eau → acier", "≈ 14,5°", "≈ 27,3°"],
-          ["Plexi → acier", "≈ 27,0°", "≈ 56,0°"],
+          ["Eau → acier", "≈ 14,4°", "≈ 27,6°"],
+          ["Plexi → acier", "≈ 26,8°", "≈ 56,1°"],
         ]}
       />
 

@@ -81,9 +81,11 @@ export function AvgChapter() {
         </Callout>
         <Callout kind="astuce" title="TCG">
           <p>
-            <em>Time Corrected Gain</em> : l'appareil <strong>monte le gain avec le temps</strong>{" "}
-            pour coller tous les échos de référence à la même hauteur. L'écran redevient « plat ».
-            C'est la DAC faite par l'électronique.
+            <em>Time Corrected Gain</em> : l'appareil augmente le gain en fonction du temps
+            de vol pour compenser la perte d'amplitude avec la distance. Les réflecteurs de
+            référence apparaissent alors à une hauteur comparable ; la DAC correspondante devient
+            visuellement une ligne horizontale. TCG et DAC poursuivent le même objectif, mais
+            TCG est une correction électronique, pas simplement « la DAC faite par l'électronique ».
           </p>
         </Callout>
       </Grid2>

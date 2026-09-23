@@ -157,18 +157,11 @@ export function SkipCalc() {
   const pHalf = t / Math.cos(rad(th));
   const dRaw = p * Math.cos(rad(th));
   const s = p * Math.sin(rad(th));
-  let d = dRaw;
-  let zone = "direct";
-  if (dRaw > t) {
-    const folded = dRaw % (2 * t);
-    if (folded > t) {
-      d = 2 * t - folded;
-      zone = "après ½ skip (remontée)";
-    } else {
-      d = folded;
-      zone = "rebond pair";
-    }
-  }
+  // Depth must be folded after each half-skip; the surface projection remains
+  // the cumulative horizontal projection of the actual zig-zag path.
+  const remainder = dRaw % (2 * t);
+  const d = remainder <= t ? remainder : 2 * t - remainder;
+  const zone = dRaw <= t ? "direct" : (remainder <= t ? "après rebond" : "après ½ skip (remontée)");
   return (
     <Panel title="Skip, profondeur, distance projetée">
       <div className="grid gap-3 sm:grid-cols-3">
@@ -180,7 +173,7 @@ export function SkipCalc() {
         <div>½ skip = {formatNum(half, 1)} mm · skip = {formatNum(full, 1)} mm</div>
         <div>P_½ = {formatNum(pHalf, 1)} mm</div>
         <div>
-          Pour P = {formatNum(p, 1)} mm → s = {formatNum(s, 1)} mm, d ≈ {formatNum(d, 1)} mm{" "}
+          Pour P = {formatNum(p, 1)} mm → distance projetée = {formatNum(s, 1)} mm, d ≈ {formatNum(d, 1)} mm{" "}
           <span className="text-ink-muted">({zone})</span>
         </div>
       </div>
