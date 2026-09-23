@@ -128,8 +128,8 @@ export function GrandeursChapter() {
             écho d'interface.
           </li>
           <li>
-            <strong>Eau → acier</strong> → réflexion partielle + transmission partielle, avec
-            inversion de phase.
+            <strong>Eau → acier</strong> → réflexion partielle + transmission partielle, sans
+            inversion de phase pour la pression réfléchie.
           </li>
         </ul>
       </Callout>
