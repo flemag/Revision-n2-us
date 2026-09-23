@@ -18,9 +18,10 @@ export function EtalonnageChapter() {
     <>
       <p>
         Cadre normatif : caractérisation de l'équipement complet selon{" "}
-        <strong>NF EN ISO 22232-3</strong> (qui a remplacé l'EN 12668-3). Le bloc étalon n° 1
-        est spécifié par <strong>ISO 2400</strong> ; le n° 2, plus petit, par{" "}
-        <strong>ISO 7963</strong>.
+        <strong>NF EN ISO 22232-3:2020</strong> (qui a remplacé l'EN 12668-3). Le bloc étalon n° 1
+        est spécifié par <strong>ISO 2400</strong> (édition actuellement publiée : 2025) ; le n° 2,
+        plus petit, par <strong>ISO 7963:2022</strong>. Vérifie toujours l'édition exigée par le
+        sujet, le client ou la procédure applicable.
       </p>
 
       <H3 id="v1">La cale V1 — bloc n° 1</H3>
@@ -107,9 +108,11 @@ export function EtalonnageChapter() {
               Capter la génératrice (Ø 3 ou 1,5 mm), ED max à 20 % HE → noter G1. Palpeur dans le
               vide, monter le gain jusqu'à ce que l'« herbe » fasse 20 % HE en moyenne → G2.
             </p>
-            <Formula title="S/B">G1 − G2 = rapport S/B</Formula>
+            <Formula title="Écart signal / bruit">ΔG = G1 − G2</Formula>
             <p className="text-sm">
-              Exemple : G1 = 42 dB, G2 = 107 dB → S/B = −65 dB. On compare à la fiche technique.
+              Exemple : G1 = 42 dB, G2 = 107 dB → ΔG = −65 dB, soit une <strong>marge de
+              65 dB</strong> si la fiche technique exprime le S/B comme une marge positive.
+              Conserve toujours la convention définie par la procédure ou la norme utilisée.
             </p>
           </Step>
           <Step title="Durée d'impulsion">

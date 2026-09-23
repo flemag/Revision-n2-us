@@ -88,9 +88,11 @@ export function OndesChapter() {
         </Callout>
         <Callout kind="astuce" title="Lamb">
           <p>
-            Modes guidés dans les tôles minces (ordre de grandeur ≤ 3 mm). Sans courbe de
-            référence, on retient l'angle d'incidence qui donne l'<strong>amplitude
-            maximale</strong>.
+            Modes guidés dans les plaques ou parois relativement minces. Leur comportement
+            dépend notamment du produit <strong>fréquence × épaisseur</strong> et du mode
+            excité (par exemple A0 ou S0). En pratique, on ne fixe donc pas une épaisseur
+            universelle comme « ≤ 3 mm ». Sans courbe de référence, l'angle donnant l'<strong>amplitude
+            maximale</strong> peut être recherché selon la méthode utilisée.
           </p>
         </Callout>
       </Grid2>
