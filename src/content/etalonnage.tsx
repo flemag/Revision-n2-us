@@ -108,9 +108,11 @@ export function EtalonnageChapter() {
               Capter la génératrice (Ø 3 ou 1,5 mm), ED max à 20 % HE → noter G1. Palpeur dans le
               vide, monter le gain jusqu'à ce que l'« herbe » fasse 20 % HE en moyenne → G2.
             </p>
-            <Formula title="S/B">G1 − G2 = rapport S/B</Formula>
+            <Formula title="Écart signal / bruit">ΔG = G1 − G2</Formula>
             <p className="text-sm">
-              Exemple : G1 = 42 dB, G2 = 107 dB → S/B = −65 dB. On compare à la fiche technique.
+              Exemple : G1 = 42 dB, G2 = 107 dB → ΔG = −65 dB, soit une <strong>marge de
+              65 dB</strong> si la fiche technique exprime le S/B comme une marge positive.
+              Conserve toujours la convention définie par la procédure ou la norme utilisée.
             </p>
           </Step>
           <Step title="Durée d'impulsion">
