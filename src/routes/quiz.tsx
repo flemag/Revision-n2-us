@@ -28,11 +28,14 @@ function QuizPage() {
   }
 
   function next() {
-    const add = picked === q.answer ? 1 : 0;
-    const newScore = score; // already updated if correct
-    void add;
+    if (picked == null) return;
+
+    // React state updates are asynchronous: on the last question, score
+    // still contains the value from before the current answer.
+    const finalScore = score + (picked === q.answer ? 1 : 0);
+
     if (i + 1 >= total) {
-      const finalScore = picked === q.answer ? score : score;
+      setLocal(finalScore);
       setScore(finalScore, total);
       setDone(true);
       return;
