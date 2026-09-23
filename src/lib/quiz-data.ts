@@ -197,10 +197,10 @@ export const QUESTIONS: Question[] = [
   {
     id: "q18",
     chapter: "etalonnage",
-    q: "Le rapport signal/bruit se calcule par :",
+    q: "Dans la convention de mesure de cet exercice, l'écart de gain entre le signal et le bruit se calcule par :",
     choices: ["G1 + G2", "G1 / G2", "G1 − G2", "20 log(G1/G2)"],
     answer: 2,
-    why: "G1 (défaut à 20 % HE) moins G2 (herbe à 20 % HE). Le résultat est largement négatif.",
+    why: "Ici ΔG = G1 − G2, avec G1 le gain nécessaire pour le signal et G2 celui nécessaire pour amener le bruit à la même hauteur. Selon la convention utilisée, une marge S/B peut ensuite être exprimée comme une valeur positive.",
   },
   {
     id: "q19",
