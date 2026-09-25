@@ -76,7 +76,7 @@ export function AvgChapter() {
           <p>
             Distance-Amplitude Correction, ou Courbe Amplitude-Distance. On relève l'écho d'un
             même réflecteur (TFP, génératrice, entaille) à plusieurs profondeurs, on trace la
-            courbe sur l'écran. Tout ce qui dépasse la courbe est au-dessus du seuil.
+            courbe sur l'écran. La courbe constitue une référence amplitude-distance ; l'évaluation et le seuil d'acceptation sont ensuite ceux définis par la procédure ou le code applicable.
           </p>
         </Callout>
         <Callout kind="astuce" title="TCG">
@@ -90,8 +90,9 @@ export function AvgChapter() {
         </Callout>
       </Grid2>
       <p>
-        AVG se passe d'étalon spécifique (les courbes viennent du palpeur + un EF ou un TFP
-        unique). DAC/TCG exigent une cale représentative du produit. Sur pièce réelle, on ajoute
+        AVG utilise des courbes propres au palpeur et aux conditions de référence ; il ne faut pas le
+        confondre avec une DAC construite point par point sur une cale. DAC/TCG utilisent des
+        réflecteurs de référence et les conditions définies par la procédure. Sur pièce réelle, on ajoute
         souvent une <strong>correction de transfert</strong>.
       </p>
       <Callout kind="savoir" title="Pour dimensionner un faisceau">
