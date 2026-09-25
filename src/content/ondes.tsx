@@ -40,8 +40,9 @@ export function OndesChapter() {
             </li>
             <li>Vitesse la plus élevée dans un solide donné (acier ≈ 5920 m/s).</li>
             <li>
-              Meilleure pénétration dans les matériaux à <strong>gros grain</strong> (λ plus
-              grande à f égale, donc moins de diffraction sur les grains).
+              À fréquence égale, sa longueur d'onde est plus grande ; cela peut réduire certaines
+              pertes par diffusion lorsque la microstructure est défavorable. La pénétration réelle
+              dépend aussi du matériau, de la microstructure, de l'atténuation et de la géométrie.
             </li>
             <li>
               En réfraction, l'angle OL est <strong>toujours plus ouvert</strong> que l'angle OT
@@ -64,8 +65,8 @@ export function OndesChapter() {
               Meilleure sensibilité aux <strong>petites discontinuités</strong> (λ plus courte).
             </li>
             <li>
-              <strong>N'existent pas</strong> dans les liquides ni les gaz : pas de résistance au
-              cisaillement. D'où l'absence d'OT dans l'eau et l'air.
+              Les ondes de cisaillement volumiques ne se propagent pas dans les liquides et les gaz
+              au sens classique, car ces milieux ne supportent pas une contrainte de cisaillement.
             </li>
           </ul>
         </Card>
@@ -107,7 +108,9 @@ export function OndesChapter() {
             <strong>s'effondre</strong>, parfois sans aucune indication de défaut.
           </li>
           <li>
-            Ce sont les <Tag kind="ol">OL</Tag> qui passent le mieux dans un gros grain.
+            À fréquence égale, les <Tag kind="ol">OL</Tag> ont une longueur d'onde plus grande ;
+            cela peut réduire la diffusion, mais le choix réel du mode et de la fréquence dépend
+            du matériau et de la procédure.
           </li>
           <li>
             Monter la fréquence aggrave le scattering : on baisse souvent f sur l'inox
