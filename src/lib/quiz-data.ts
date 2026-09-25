@@ -189,10 +189,15 @@ export const QUESTIONS: Question[] = [
   {
     id: "q17",
     chapter: "etalonnage",
-    q: "Tolérance usuelle sur l'angle réel d'un palpeur 45° :",
-    choices: ["± 0,5°", "± 2°", "± 5°", "± 10°"],
+    q: "Pour vérifier l'angle réel d'un palpeur 45°, la tolérance à appliquer est :",
+    choices: [
+      "Toujours ± 0,5°",
+      "Celle fixée par la norme ou la procédure applicable",
+      "Toujours ± 5°",
+      "Toujours ± 10°",
+    ],
     answer: 1,
-    why: "± 2°. Au-delà, le sabot est usé : on le réforme ou on le reformule dans la FIT.",
+    why: "La tolérance dépend du référentiel applicable. Une valeur d'exemple de formation ne doit pas être mémorisée comme une tolérance universelle.",
   },
   {
     id: "q18",
