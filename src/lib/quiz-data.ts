@@ -118,7 +118,7 @@ export const QUESTIONS: Question[] = [
       "Égalité des impédances",
     ],
     answer: 1,
-    why: "OL plus rapide → elle rase en premier. Au-delà, le sabot ne couple plus que de l'OT dans l'acier.",
+    why: "OL plus rapide → elle atteint 90° au premier angle critique. Entre les deux angles critiques, il n'y a plus d'OL volumique réfractée ; l'OT peut encore être réfractée. Au-delà du second, le modèle volumique classique ne donne plus d'OT réfractée non rasante ; des composantes de surface peuvent dépendre de la configuration.",
   },
   {
     id: "q10",
@@ -265,15 +265,15 @@ export const QUESTIONS: Question[] = [
   {
     id: "q24",
     chapter: "forge",
-    q: "Sur un brut de forge, on privilégie :",
+    q: "Sur un brut de forge, quelle approche peut améliorer le couplage et limiter l'influence de la rugosité ?" 
     choices: [
       "Un palpeur d'angle 70° sec",
-      "Une membrane souple et de l'huile",
-      "Un palpeur immersé sans couplant",
-      "Une fréquence 15 MHz",
+      "Une membrane souple avec un couplant adapté",
+      "Un palpeur immergé sans couplant",
+      "Une fréquence élevée choisie sans tenir compte du grain",
     ],
     answer: 1,
-    why: "La membrane épouse la peau d'orange. Fréquence haute = suicide sur brut.",
+    why: "Une membrane souple peut mieux épouser une surface irrégulière et un couplant adapté améliore le transfert acoustique. La fréquence doit être choisie selon l'état de surface, le matériau, le grain, l'atténuation et la procédure ; aucune fréquence unique n'est universelle.",
   },
   {
     id: "q25",
